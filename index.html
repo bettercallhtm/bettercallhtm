@@ -1,0 +1,694 @@
+<title>bettercallhtm</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+
+<style>
+  /* ── tokens ──────────────────────────────────────── */
+  :root {
+    --bg:          #F6F4EF;
+    --surface:     #FFFFFF;
+    --text:        #15141A;
+    --text-muted:  #5C5A68;
+    --accent:      #6A5CF0;
+    --border:      rgba(20, 18, 30, 0.10);
+    --orb-a: rgba(106, 92, 240, 0.10);
+    --orb-b: rgba(244, 93, 154, 0.09);
+    --orb-c: rgba(56, 190, 130, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:         #09090F;
+      --surface:    #14141D;
+      --text:       #F2EFE9;
+      --text-muted: #9E9EB2;
+      --accent:     #8F84FF;
+      --border:     rgba(255, 255, 255, 0.08);
+      --orb-a: rgba(143, 132, 255, 0.16);
+      --orb-b: rgba(244, 93, 154, 0.13);
+      --orb-c: rgba(85, 197, 122, 0.10);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:         #09090F;
+    --surface:    #14141D;
+    --text:       #F2EFE9;
+    --text-muted: #9E9EB2;
+    --accent:     #8F84FF;
+    --border:     rgba(255, 255, 255, 0.08);
+    --orb-a: rgba(143, 132, 255, 0.16);
+    --orb-b: rgba(244, 93, 154, 0.13);
+    --orb-c: rgba(85, 197, 122, 0.10);
+  }
+
+  :root[data-theme="light"] {
+    --bg:         #F6F4EF;
+    --surface:    #FFFFFF;
+    --text:       #15141A;
+    --text-muted: #5C5A68;
+    --accent:     #6A5CF0;
+    --border:     rgba(20, 18, 30, 0.10);
+    --orb-a: rgba(106, 92, 240, 0.10);
+    --orb-b: rgba(244, 93, 154, 0.09);
+    --orb-c: rgba(56, 190, 130, 0.08);
+  }
+
+  /* ── reset ───────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding-inline: clamp(16px, 5vw, 40px);
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(620px circle at 12% 8%,  var(--orb-a), transparent 55%),
+      radial-gradient(560px circle at 88% 18%, var(--orb-b), transparent 55%),
+      radial-gradient(600px circle at 70% 95%, var(--orb-c), transparent 55%);
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  img { max-width: 100%; display: block; }
+
+  .page { max-width: 900px; margin-inline: auto; }
+
+  /* ── nav ──────────────────────────────────────────── */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 26px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .nav-brand:hover { color: var(--accent); text-decoration: none; }
+
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .nav-links { list-style: none; display: flex; gap: 22px; }
+  .nav-links a { font-size: 0.85rem; color: var(--text-muted); }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+  /* language switch */
+  .lang-switch {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .lang-opt {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    padding: 5px 11px;
+    transition: background 0.18s, color 0.18s;
+  }
+  .lang-opt[aria-pressed="true"] { background: var(--accent); color: #fff; }
+
+  /* theme switch */
+  .switch {
+    width: 46px;
+    height: 26px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+  .switch:hover { border-color: var(--accent); }
+  .switch-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateX(20px);
+    transition: transform 0.22s;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .switch-knob { transform: translateX(0); }
+  }
+  :root[data-theme="dark"]  .switch-knob { transform: translateX(0); }
+  :root[data-theme="light"] .switch-knob { transform: translateX(20px); }
+
+  /* ── hero ─────────────────────────────────────────── */
+  .hero { padding-block: 84px 76px; }
+
+  .hero-eyebrow {
+    display: inline-block;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 26px;
+  }
+
+  .hero-headline {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6.4vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    color: var(--text);
+    margin-bottom: 30px;
+    max-width: 15ch;
+  }
+
+  .hero-bio {
+    font-size: 1.08rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    line-height: 1.78;
+  }
+
+  /* ── section label ────────────────────────────────── */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-top: 24px;
+    margin-bottom: 28px;
+  }
+  .sec-label {
+    font-size: 0.74rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+  .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── project cards ────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    align-items: stretch;
+    margin-bottom: 60px;
+  }
+
+  .card {
+    --c: var(--accent);
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(158deg, color-mix(in srgb, var(--c) 8%, var(--surface)), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px 28px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--c), transparent 75%);
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--c) 55%, transparent);
+    box-shadow: 0 18px 44px -14px color-mix(in srgb, var(--c) 45%, transparent);
+  }
+
+  .chip {
+    align-self: flex-start;
+    color: var(--c);
+    background: color-mix(in srgb, var(--c) 15%, transparent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+
+  .card-name {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 16px 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    letter-spacing: -0.01em;
+    transition: color 0.18s;
+  }
+  .card-name:hover { color: var(--c); text-decoration: none; }
+  .card-arrow {
+    color: var(--c);
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: transform 0.18s, opacity 0.18s;
+  }
+  .card-name:hover .card-arrow { transform: translate(2px, -2px); opacity: 1; }
+
+  .card-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.68;
+  }
+
+  .card-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--c);
+    margin-top: 14px;
+  }
+
+  /* video poster / placeholder */
+  .card-video {
+    margin-top: auto;
+    width: 100%;
+    max-width: 232px;
+    aspect-ratio: 9 / 16;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    align-self: center;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    padding-top: 20px;
+    background: linear-gradient(160deg,
+      color-mix(in srgb, var(--c) 58%, #06060a),
+      color-mix(in srgb, var(--c) 22%, #06060a));
+    background-clip: padding-box;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card-video:hover {
+    transform: scale(1.02);
+    text-decoration: none;
+    box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--c) 60%, transparent);
+  }
+  .card-video.is-soon { cursor: default; }
+  .card-video.is-soon:hover { transform: none; box-shadow: none; }
+
+  .video-poster {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .play {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    color: #14141d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    padding-left: 4px;
+    transition: transform 0.2s;
+  }
+  .card-video:hover .play { transform: scale(1.1); }
+  .video-label {
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  }
+  .is-soon .video-label { opacity: 0.9; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .card-arrow, .switch-knob, .card-video, .play { transition: none; }
+    .card:hover, .card-video:hover { transform: none; }
+  }
+
+  /* ── about ────────────────────────────────────────── */
+  .about { margin-bottom: 44px; }
+
+  .about-text {
+    font-size: 1.12rem;
+    color: var(--text);
+    line-height: 1.8;
+    max-width: 640px;
+    margin-bottom: 28px;
+  }
+
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--accent);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .contact-btn:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+    color: #fff;
+  }
+
+  /* ── footer ───────────────────────────────────────── */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-block: 36px 44px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-sig {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-muted);
+    letter-spacing: -0.01em;
+  }
+  .footer-links { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer-links a { font-size: 0.83rem; color: var(--text-muted); }
+  .footer-links a:hover { color: var(--accent); text-decoration: none; }
+
+  /* ── lightbox ─────────────────────────────────────── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lb-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 6, 12, 0.82);
+    backdrop-filter: blur(4px);
+  }
+  .lb-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .lb-frame {
+    height: min(80vh, 640px);
+    aspect-ratio: 9 / 16;
+    max-width: 90vw;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+  }
+  .lb-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .lb-yt { color: #fff; font-size: 0.85rem; font-weight: 600; }
+  .lb-yt:hover { color: #fff; }
+  .lb-close {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lb-close:hover { background: rgba(255, 255, 255, 0.18); }
+
+  /* ── responsive ───────────────────────────────────── */
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero { padding-block: 52px 52px; }
+    .footer { flex-direction: column; align-items: flex-start; }
+    .card-video { max-width: 260px; }
+    .lb-close { top: 0; right: 0; }
+  }
+</style>
+
+<div class="page">
+
+  <!-- ── nav ── -->
+  <nav class="nav">
+    <a href="#" class="nav-brand">bettercallhtm</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#projects" data-tr="Ürünler" data-en="Products">Ürünler</a></li>
+        <li><a href="#about" data-tr="Hakkımda" data-en="About">Hakkımda</a></li>
+      </ul>
+      <div class="lang-switch" role="group" aria-label="Dil / Language">
+        <button class="lang-opt" data-lang="tr" aria-pressed="true">TR</button>
+        <button class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="switch" onclick="toggleTheme()" role="switch" aria-label="Koyu / açık tema">
+        <span class="switch-knob"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── hero ── -->
+  <section class="hero">
+    <span class="hero-eyebrow" data-tr="Bağımsız geliştirici" data-en="Independent developer">Bağımsız geliştirici</span>
+    <h1 class="hero-headline"
+        data-tr="Benim aklıma geldiyse, başkasının aklına da gelmiş olabilir."
+        data-en="If it crossed my mind, it may have crossed someone else's too.">Benim aklıma geldiyse, başkasının aklına da gelmiş olabilir.</h1>
+    <p class="hero-bio"
+       data-tr="Çözülmeye değer bir problem gördüğümde hemen uygulamaya döküyorum — restoran yönetiminden AI sohbete, satranç analizinden Kuran'a. Problem çözmeyi ve üretmeyi seviyorum."
+       data-en="When I see a problem worth solving, I build it right away — from restaurant operations to AI chat, from chess analysis to the Qur'an. I love solving problems and building things.">Çözülmeye değer bir problem gördüğümde hemen uygulamaya döküyorum — restoran yönetiminden AI sohbete, satranç analizinden Kuran'a. Problem çözmeyi ve üretmeyi seviyorum.</p>
+  </section>
+
+  <!-- ── products ── -->
+  <div class="sec-head" id="projects">
+    <span class="sec-label" data-tr="Ürünler" data-en="Products">Ürünler</span>
+    <span class="sec-rule"></span>
+  </div>
+
+  <div class="grid">
+
+    <div class="card" style="--c:#E8A93A">
+      <span class="chip" data-tr="İslami · Uygulama" data-en="Faith · App">İslami · Uygulama</span>
+      <a class="card-name" href="https://liman-eosin.vercel.app/" target="_blank" rel="noopener">
+        <span>Liman</span> <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+      <p class="card-desc"
+         data-tr="Ruh hâlini veya yaşadığın bir anı yazıyorsun; Kur'an'dan o hâle dokunan bir ayet ve dua geliyor. Hiçbir şey sunucuya gönderilmiyor — eşleştirme cihazının içinde hesaplanıyor."
+         data-en="You write how you feel or something you're going through; a verse from the Qur'an that speaks to that state, plus a prayer, comes back. Nothing is sent to a server — the matching runs on your device.">Ruh hâlini veya yaşadığın bir anı yazıyorsun; Kur'an'dan o hâle dokunan bir ayet ve dua geliyor. Hiçbir şey sunucuya gönderilmiyor — eşleştirme cihazının içinde hesaplanıyor.</p>
+      <p class="card-tag" data-tr="&quot;Nasıl hissediyorsan, ona bir ayet.&quot;" data-en="&quot;However you feel, a verse for it.&quot;">"Nasıl hissediyorsan, ona bir ayet."</p>
+      <button class="card-video" data-video="bjtk8aWE45w" aria-label="Liman tanıtım filmini izle">
+        <span class="video-poster">
+          <span class="play" aria-hidden="true">&#9654;</span>
+          <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="card" style="--c:#F45D9A">
+      <span class="chip" data-tr="AI · Sohbet" data-en="AI · Chat">AI · Sohbet</span>
+      <a class="card-name" href="https://laftan.vercel.app/" target="_blank" rel="noopener">
+        <span>Laftan</span> <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+      <p class="card-desc"
+         data-tr="Farklı karakterlerle metin üzerinden sohbet eden bir AI uygulaması. Elif, Kaan ve diğerleri — her biri kendi sesi, kendi duruşu olan karakterler."
+         data-en="An AI app for chatting by text with distinct characters. Elif, Kaan and others — each with their own voice and attitude.">Farklı karakterlerle metin üzerinden sohbet eden bir AI uygulaması. Elif, Kaan ve diğerleri — her biri kendi sesi, kendi duruşu olan karakterler.</p>
+      <p class="card-tag" data-tr="&quot;Lafın insan olmuş hali.&quot;" data-en="&quot;Words, in human form.&quot;">"Lafın insan olmuş hali."</p>
+      <button class="card-video" data-video="nBwOXwsU0do" aria-label="Laftan tanıtım filmini izle">
+        <span class="video-poster">
+          <span class="play" aria-hidden="true">&#9654;</span>
+          <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="card" style="--c:#17BEBB">
+      <span class="chip" data-tr="Satranç · Araç" data-en="Chess · Tool">Satranç · Araç</span>
+      <a class="card-name" href="https://pratiksatrancanaliz.getdebihook.com/" target="_blank" rel="noopener">
+        <span data-tr="Pratik Satranç Analizi" data-en="Quick Chess Analysis">Pratik Satranç Analizi</span> <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+      <p class="card-desc"
+         data-tr="Lichess veya Chess.com kullanıcı adını gir; hamleler motora gönderilsin; analiz özeti gelsin. Derinlemesine inceleme değil — pratik, hızlı geri bildirim."
+         data-en="Enter your Lichess or Chess.com username; your moves go to the engine; you get an analysis summary. Not a deep dive — quick, practical feedback.">Lichess veya Chess.com kullanıcı adını gir; hamleler motora gönderilsin; analiz özeti gelsin. Derinlemesine inceleme değil — pratik, hızlı geri bildirim.</p>
+      <button class="card-video" data-video="3MTliR243Kk" aria-label="Pratik Satranç Analizi tanıtım filmini izle">
+        <span class="video-poster">
+          <span class="play" aria-hidden="true">&#9654;</span>
+          <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="card" style="--c:#55C57A">
+      <span class="chip" data-tr="SaaS · Restoran" data-en="SaaS · Restaurant">SaaS · Restoran</span>
+      <a class="card-name" href="https://getdebi.com/" target="_blank" rel="noopener">
+        <span>Debi</span> <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+      <p class="card-desc"
+         data-tr="Restoran ve marketler için yoğun saat yönetim yazılımı. Uber Eats, GetirYemek ve Yemeksepeti yükünü aynı anda izler; ceza riskini azaltmak için sipariş akışını dengeler, iş normale dönünce geri çekilir."
+         data-en="Rush-hour management software for restaurants and markets. It watches Uber Eats, GetirYemek and Yemeksepeti load at once; balances order flow to cut penalty risk, then eases off once things calm down.">Restoran ve marketler için yoğun saat yönetim yazılımı. Uber Eats, GetirYemek ve Yemeksepeti yükünü aynı anda izler; ceza riskini azaltmak için sipariş akışını dengeler, iş normale dönünce geri çekilir.</p>
+      <p class="card-tag" data-tr="&quot;Yoğun saatlerin cezası kârınızdan çıkmasın.&quot;" data-en="&quot;Don't let rush-hour penalties eat your profit.&quot;">"Yoğun saatlerin cezası kârınızdan çıkmasın."</p>
+      <div class="card-video is-soon">
+        <span class="video-poster">
+          <span class="video-label" data-tr="Tanıtım yakında" data-en="Promo coming soon">Tanıtım yakında</span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── about ── -->
+  <div class="sec-head" id="about">
+    <span class="sec-label" data-tr="Hakkımda" data-en="About">Hakkımda</span>
+    <span class="sec-rule"></span>
+  </div>
+
+  <section class="about">
+    <p class="about-text"
+       data-tr="Türkiye'den bağımsız geliştirici. Günlük hayatta gözlemlediğim ve şahsi olarak yaşadığım sorunları uygulamaya dökerek çözmeye çalışıyorum. Bu bazen restoranların yoğun saatlerde daha az ceza ödemesi, bazen duygu durumuna göre bir ayet bulabilmek, bazen de bir satranç partisinde hatalarını saniyeler içinde analiz edebilmek anlamına geliyor."
+       data-en="Independent developer from Türkiye. I try to solve the problems I observe in daily life and go through personally by turning them into apps. Sometimes that means a restaurant paying fewer penalties during rush hour, sometimes finding a verse that fits how you feel, and sometimes analyzing your mistakes in a chess game within seconds.">Türkiye'den bağımsız geliştirici. Günlük hayatta gözlemlediğim ve şahsi olarak yaşadığım sorunları uygulamaya dökerek çözmeye çalışıyorum. Bu bazen restoranların yoğun saatlerde daha az ceza ödemesi, bazen duygu durumuna göre bir ayet bulabilmek, bazen de bir satranç partisinde hatalarını saniyeler içinde analiz edebilmek anlamına geliyor.</p>
+    <a class="contact-btn" href="mailto:bettercallhtm@gmail.com">
+      bettercallhtm@gmail.com <span aria-hidden="true">→</span>
+    </a>
+  </section>
+
+  <!-- ── footer ── -->
+  <footer class="footer">
+    <span class="footer-sig">bettercallhtm</span>
+    <ul class="footer-links">
+      <li><a href="https://getdebi.com" target="_blank" rel="noopener">Debi</a></li>
+      <li><a href="https://laftan.vercel.app" target="_blank" rel="noopener">Laftan</a></li>
+      <li><a href="https://liman-eosin.vercel.app" target="_blank" rel="noopener">Liman</a></li>
+      <li><a href="https://pratiksatrancanaliz.getdebihook.com" target="_blank" rel="noopener" data-tr="Satranç" data-en="Chess">Satranç</a></li>
+      <li><a href="https://www.youtube.com/channel/UClsjNi6JAXzqQ5ChgpveSNQ" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+  </footer>
+
+</div>
+
+<!-- ── video lightbox ── -->
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lb-backdrop" data-close></div>
+  <div class="lb-content">
+    <button class="lb-close" data-close aria-label="Kapat">&times;</button>
+    <div class="lb-frame">
+      <iframe id="lb-iframe" title="Tanıtım filmi"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+    </div>
+    <a class="lb-yt" id="lb-yt" href="#" target="_blank" rel="noopener"
+       data-tr="YouTube'da aç ↗" data-en="Open on YouTube ↗">YouTube'da aç ↗</a>
+  </div>
+</div>
+
+<script>
+  /* ── theme ── */
+  function toggleTheme() {
+    const root = document.documentElement;
+    const cur  = root.getAttribute('data-theme');
+    const next = !cur
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark')
+      : cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e) {}
+  }
+  try {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  } catch(e) {}
+
+  /* ── language ── */
+  function setLang(lang) {
+    document.querySelectorAll('[data-tr]').forEach(el => {
+      const val = lang === 'en' ? el.dataset.en : el.dataset.tr;
+      if (val != null) el.textContent = val;
+    });
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('.lang-opt').forEach(b =>
+      b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    try { localStorage.setItem('lang', lang); } catch(e) {}
+  }
+  document.querySelectorAll('.lang-opt').forEach(b =>
+    b.addEventListener('click', () => setLang(b.dataset.lang)));
+  (function () {
+    let lang = 'tr';
+    try { lang = localStorage.getItem('lang') || 'tr'; } catch(e) {}
+    setLang(lang);
+  })();
+
+  /* ── video lightbox ── */
+  const lb = document.getElementById('lightbox');
+  const lbIframe = document.getElementById('lb-iframe');
+  const lbYt = document.getElementById('lb-yt');
+
+  function openVideo(id) {
+    lbIframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+    lbYt.href = 'https://www.youtube.com/shorts/' + id;
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    lb.hidden = true;
+    lbIframe.src = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.card-video[data-video]').forEach(btn =>
+    btn.addEventListener('click', () => openVideo(btn.dataset.video)));
+  lb.querySelectorAll('[data-close]').forEach(el =>
+    el.addEventListener('click', closeVideo));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !lb.hidden) closeVideo();
+  });
+</script>
