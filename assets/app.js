@@ -106,9 +106,6 @@
       gbmDist: 'dağılım',
       knightRead: (n, s) => `hamle <b>${n}</b>/64 · başlangıç <b>${s}</b>`,
       knightDone: 'tur tamam ✓',
-      buyPressure: 'alış baskısı',
-      sellPressure: 'satış baskısı',
-      stonks: '🚀 STONKS MODE — tüm pozisyonlar yeşil',
       reduced: 'Hareket azaltma açık — animasyon pas geçildi',
       bootSkip: 'geçmek için tıkla',
     },
@@ -118,9 +115,6 @@
       gbmDist: 'distribution',
       knightRead: (n, s) => `move <b>${n}</b>/64 · start <b>${s}</b>`,
       knightDone: 'tour complete ✓',
-      buyPressure: 'buy pressure',
-      sellPressure: 'sell pressure',
-      stonks: '🚀 STONKS MODE — every position is green',
       reduced: 'Reduced motion is on — animation skipped',
       bootSkip: 'click to skip',
     },
@@ -171,7 +165,7 @@
       ['ok', 'bettercallhtm bios v2026.9'],
       ['ok', 'mounting /dev/curiosity'],
       ['ok', 'loading modules: finance · math · chess · code'],
-      ['ok', 'spinning up market feed (simulated)'],
+      ['ok', 'warming up the candlestick chart'],
       ['ok', 'compiling ego… 0 warnings'],
       ['go', '> ACCESS GRANTED'],
     ];
@@ -205,64 +199,6 @@
     addEventListener('keydown', finish, { once: true });
     next();
   });
-
-  /* ── market (ticker tape) ────────────────────────────── */
-  const Market = (() => {
-    const items = [
-      { s: 'HTM', p: 142.07, d: 0.0015 },
-      { s: 'DEBI', p: 88.40, d: 0.0012 },
-      { s: 'LAFTAN', p: 36.20, d: 0.001 },
-      { s: 'LIMAN', p: 61.90, d: 0.001 },
-      { s: 'CHESS', p: 24.80, d: 0.0004 },
-      { s: 'SHIP', p: 77.70, d: 0.002 },
-      { s: 'CURIOSITY', p: 99.99, d: 0.001 },
-      { s: 'COFFEE', p: 9.99, d: 0.0008 },
-      { s: 'SLEEP', p: 4.20, d: -0.003 },
-      { s: 'BUGS', p: 13.37, d: -0.002 },
-      { s: 'COMMITS', p: 512.00, d: 0.001 },
-    ];
-    items.forEach(it => { it.o = it.p; it.base = it.d; });
-    const track = $('#tape');
-    const chg = it => (it.p / it.o - 1) * 100;
-    const html = it => {
-      const c = chg(it), up = c >= 0;
-      return `<span class="tk" data-s="${it.s}"><b>$${it.s}</b><span class="tk-p">${it.p.toFixed(2)}</span><span class="tk-c ${up ? 'up' : 'dn'}">${up ? '▲' : '▼'} ${Math.abs(c).toFixed(2)}%</span></span>`;
-    };
-    const row = items.map(html).join('');
-    track.innerHTML = row + row;
-
-    function paint(it, dir) {
-      const c = chg(it), up = c >= 0;
-      $$(`[data-s="${it.s}"]`, track).forEach(node => {
-        const p = $('.tk-p', node), ch = $('.tk-c', node);
-        p.textContent = it.p.toFixed(2);
-        p.className = 'tk-p ' + (dir > 0 ? 'flash-up' : 'flash-dn');
-        ch.className = 'tk-c ' + (up ? 'up' : 'dn');
-        ch.textContent = `${up ? '▲' : '▼'} ${Math.abs(c).toFixed(2)}%`;
-        setTimeout(() => { p.className = 'tk-p'; }, 700);
-      });
-    }
-    function tick() {
-      if (document.hidden) return;
-      const k = 2 + ((Math.random() * 3) | 0);
-      for (let i = 0; i < k; i++) {
-        const it = items[(Math.random() * items.length) | 0];
-        const old = it.p;
-        it.p = Math.max(0.01, it.p * Math.exp(it.d + 0.006 * gauss()));
-        paint(it, it.p - old);
-      }
-    }
-    if (!REDUCED) setInterval(tick, 1300);
-
-    let pumpTimer = 0;
-    function pump() {
-      items.forEach(it => { it.d = 0.02; });
-      for (let i = 0; i < 6; i++) setTimeout(tick, i * 160);
-      clearTimeout(pumpTimer);
-      pumpTimer = setTimeout(() => items.forEach(it => { it.d = it.base; }), 9000);
-    }
-    return { items, chg, pump };
-  })();
 
   /* ── header: scroll progress + active link ───────────── */
   const progress = $('#progress');
@@ -307,18 +243,6 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
   $$('.rv').forEach(el => revIO.observe(el));
-
-  /* live public repo count */
-  const repoEl = $('#repo-count');
-  fetch('https://api.github.com/users/bettercallhtm')
-    .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
-    .then(d => {
-      if (!Number.isFinite(d.public_repos)) return;
-      repoEl.dataset.count = d.public_repos;
-      if (repoEl.closest('.rv.in')) countUp(repoEl);
-      else repoEl.textContent = d.public_repos;
-    })
-    .catch(() => { repoEl.innerHTML = '<a href="https://github.com/bettercallhtm" target="_blank" rel="noopener">GH↗</a>'; });
 
   /* ── hero: headline decode ───────────────────────────── */
   const GLYPHS = '!<>-_\\/[]{}=+*^?#$%&01ΣΔλ';
@@ -854,7 +778,7 @@
     });
   }
 
-  /* ── LAB.01 · GBM Monte Carlo ────────────────────────── */
+  /* ── lab: GBM Monte Carlo ───────────────────────────── */
   (() => {
     const cv = $('#gbm-canvas');
     if (!cv) return;
@@ -1009,7 +933,7 @@
   }
   const fmtFactors = f => f.map(([p, e]) => p + (e > 1 ? String(e).split('').map(d => SUP[d]).join('') : '')).join(' · ');
 
-  /* ── LAB.03 · Knight's tour ──────────────────────────── */
+  /* ── lab: knight's tour ────────────────────────────── */
   (() => {
     const cv = $('#knight-canvas');
     if (!cv) return;
@@ -1123,178 +1047,8 @@
     onFirstView(cv, () => { started = true; randomStart(); });
   })();
 
-  /* ── LAB.02 · live order book ────────────────────────── */
-  (() => {
-    const cv = $('#book-canvas');
-    if (!cv) return;
-    const read = $('#book-read');
-    const L = 30, TICK = 0.05, ROWS = 9;
-    const base = i => 3 + i * 0.9 + Math.random() * 5;
-    const lvl = i => { const s = base(i); return { size: s, target: s, flash: 0 }; };
-    const fresh = () => ({ size: 0.4, target: 2 + Math.random() * 4, flash: 1 });
-    let bb = 141.95; // best bid; best ask is always bb + TICK
-    let bids = Array.from({ length: L }, (_, i) => lvl(i));
-    let asks = Array.from({ length: L }, (_, i) => lvl(i));
-    const trades = [];
-    let nextTrade = 700, lastPx = bb + TICK, lastBuy = true, lastRead = 0;
-    const S = setupCanvas(cv, () => draw());
-    const depthSum = (arr, n) => { let s = 0; for (let i = 0; i < n; i++) s += arr[i].size; return s; };
-    const imbalance = () => { const b = depthSum(bids, 10), a = depthSum(asks, 10); return b / (a + b); };
-
-    function marketOrder() {
-      const buy = Math.random() < 0.5 + (imbalance() - 0.5) * 0.8;
-      const book = buy ? asks : bids;
-      let qty = 1 + Math.random() * (Math.random() < 0.15 ? 16 : 5);
-      const q0 = qty;
-      lastPx = buy ? bb + TICK : bb;
-      while (qty > 0) {
-        const top = book[0];
-        if (qty < top.size) {
-          top.size -= qty;
-          top.target = Math.max(0.5, top.target - qty);
-          top.flash = 1;
-          qty = 0;
-        } else {
-          // level wiped out: price ticks, a fresh quote joins the other side
-          qty -= top.size;
-          if (buy) { asks.shift(); asks.push(lvl(L - 1)); bb += TICK; bids.unshift(fresh()); bids.pop(); }
-          else { bids.shift(); bids.push(lvl(L - 1)); bb -= TICK; asks.unshift(fresh()); asks.pop(); }
-          lastPx = buy ? bb : bb + TICK;
-        }
-      }
-      lastBuy = buy;
-      trades.push({ buy, size: q0, age: 0 });
-    }
-
-    function step(dt) {
-      nextTrade -= dt;
-      if (nextTrade <= 0) { marketOrder(); nextTrade = 300 + Math.random() * 1100; }
-      const k = Math.min(1, dt * 0.004);
-      for (const side of [bids, asks]) {
-        side.forEach((l, i) => {
-          if (Math.random() < 0.012) l.target = base(i) * (0.4 + Math.random() * 1.1);
-          l.size += (l.target - l.size) * k;
-          l.flash = Math.max(0, l.flash - dt / 600);
-        });
-      }
-      for (const tr of trades) tr.age += dt;
-      while (trades.length && trades[0].age > 1100) trades.shift();
-    }
-
-    function draw() {
-      const { ctx, w, h } = S;
-      if (!w) return;
-      ctx.clearRect(0, 0, w, h);
-      const ladder = w >= 360;
-      const dW = ladder ? Math.floor(w * 0.56) : w;
-      const T = 30, B = h - 24;
-      ctx.font = MONO(10.5);
-
-      // depth chart
-      const cx = dW / 2, dx = (dW / 2 - 10) / L;
-      const cumB = [], cumA = [];
-      let cb = 0, ca = 0;
-      for (let i = 0; i < L; i++) { cb += bids[i].size; ca += asks[i].size; cumB.push(cb); cumA.push(ca); }
-      const maxC = Math.max(cb, ca) * 1.08;
-      const Yc = c => B - (c / maxC) * (B - T);
-      ctx.strokeStyle = rgba(C.text, 0.05);
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      for (let g = 1; g <= 4; g++) { const y = Math.round(T + ((B - T) * g) / 4) + 0.5; ctx.moveTo(0, y); ctx.lineTo(dW, y); }
-      ctx.stroke();
-      const side = (cum, dir, col) => {
-        ctx.beginPath();
-        ctx.moveTo(cx + dir * 2, B);
-        let prevY = B;
-        for (let i = 0; i < L; i++) {
-          const x = cx + dir * (2 + i * dx), y = Yc(cum[i]);
-          ctx.lineTo(x, prevY); ctx.lineTo(x, y);
-          prevY = y;
-        }
-        const edge = cx + dir * (2 + L * dx);
-        ctx.lineTo(edge, prevY);
-        ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.stroke();
-        ctx.lineTo(edge, B); ctx.closePath();
-        const g = ctx.createLinearGradient(0, T, 0, B);
-        g.addColorStop(0, rgba(col, 0.32)); g.addColorStop(1, rgba(col, 0.03));
-        ctx.fillStyle = g; ctx.fill();
-      };
-      side(cumB, -1, C.accent);
-      side(cumA, 1, C.down);
-
-      // trade bursts at the mid
-      for (const tr of trades) {
-        const p = tr.age / 1100;
-        ctx.strokeStyle = rgba(tr.buy ? C.accent : C.down, 1 - p);
-        ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.arc(cx, B - 12, 3 + p * (10 + tr.size * 1.4), 0, Math.PI * 2); ctx.stroke();
-      }
-      ctx.setLineDash([3, 4]);
-      ctx.strokeStyle = rgba(C.text, 0.3);
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(Math.round(cx) + 0.5, T - 8); ctx.lineTo(Math.round(cx) + 0.5, B); ctx.stroke();
-      ctx.setLineDash([]);
-
-      ctx.textBaseline = 'top';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = lastBuy ? C.accent : C.down;
-      ctx.font = `600 ${MONO(12)}`;
-      ctx.fillText(`${lastPx.toFixed(2)} ${lastBuy ? '▲' : '▼'}`, cx, 6);
-      ctx.font = MONO(10);
-      ctx.fillStyle = C.textDim;
-      ctx.textBaseline = 'bottom';
-      ctx.textAlign = 'left';
-      ctx.fillText((bb - (L - 1) * TICK).toFixed(2), 2, h - 4);
-      ctx.textAlign = 'right';
-      ctx.fillText((bb + L * TICK).toFixed(2), dW - 2, h - 4);
-      ctx.textAlign = 'center';
-      ctx.fillText('BID  ·  ASK', cx, h - 4);
-
-      if (!ladder) return;
-      // ladder
-      const lx = dW + 14, lw = w - lx - 2, rh = (h - 8) / (ROWS * 2 + 1);
-      let maxS = 0;
-      for (let i = 0; i < ROWS; i++) maxS = Math.max(maxS, bids[i].size, asks[i].size);
-      ctx.strokeStyle = rgba(C.text, 0.08);
-      ctx.beginPath(); ctx.moveTo(dW + 6.5, 4); ctx.lineTo(dW + 6.5, h - 4); ctx.stroke();
-      ctx.font = MONO(10.5);
-      ctx.textBaseline = 'middle';
-      const row = (y, price, l, col) => {
-        const bw = (l.size / maxS) * lw;
-        ctx.fillStyle = rgba(col, 0.13 + l.flash * 0.4);
-        ctx.fillRect(lx + lw - bw, y + 1, bw, rh - 2);
-        ctx.textAlign = 'left'; ctx.fillStyle = col;
-        ctx.fillText(price.toFixed(2), lx + 5, y + rh / 2);
-        ctx.textAlign = 'right'; ctx.fillStyle = C.textMuted;
-        ctx.fillText(l.size.toFixed(1), lx + lw - 5, y + rh / 2);
-      };
-      for (let i = 0; i < ROWS; i++) { const k = ROWS - 1 - i; row(4 + i * rh, bb + TICK * (k + 1), asks[k], C.down); }
-      const sy = 4 + ROWS * rh;
-      ctx.textAlign = 'left'; ctx.fillStyle = C.text;
-      ctx.fillText((bb + TICK / 2).toFixed(3), lx + 5, sy + rh / 2);
-      ctx.textAlign = 'right'; ctx.fillStyle = C.textDim;
-      ctx.fillText(`Δ ${TICK.toFixed(2)}`, lx + lw - 5, sy + rh / 2);
-      for (let i = 0; i < ROWS; i++) row(sy + rh + i * rh, bb - TICK * i, bids[i], C.accent);
-    }
-
-    function readout(now) {
-      if (now - lastRead < 350) return;
-      lastRead = now;
-      const imb = imbalance(), buyP = imb >= 0.5;
-      read.innerHTML =
-        `<span>mid <b>${(bb + TICK / 2).toFixed(3)}</b></span>` +
-        `<span>spread <b>${TICK.toFixed(2)}</b></span>` +
-        `<span class="${buyP ? 'ok' : 'bad'}">${esc(t(buyP ? 'buyPressure' : 'sellPressure'))} <b>${Math.round((buyP ? imb : 1 - imb) * 100)}%</b></span>`;
-    }
-
-    on('theme', draw);
-    on('lang', () => { lastRead = 0; readout(performance.now()); });
-    if (REDUCED) { draw(); readout(1e9); return; }
-    onFirstView(cv, () => loop(cv, (now, dt) => { step(dt); draw(); readout(now); }));
-  })();
-
-  /* ── matrix / stonks rain ────────────────────────────── */
-  function rain(mode = 'matrix') {
+  /* ── matrix rain ────────────────────────────────────── */
+  function rain() {
     if (REDUCED) { toast(t('reduced')); return; }
     if ($('.matrix')) return;
     const cv = document.createElement('canvas');
@@ -1307,7 +1061,7 @@
     ctx.scale(dpr, dpr);
     const fs = 16, cols = Math.ceil(w / fs);
     const drops = Array.from({ length: cols }, () => Math.random() * -50);
-    const chars = [...(mode === 'stonks' ? '$₺€¥▲↑%$$' : 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789$HTM')];
+    const chars = [...'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789$HTM'];
     ctx.fillStyle = `rgb(${C.bgRGB})`;
     ctx.fillRect(0, 0, w, h);
     let raf = 0, last = 0, ended = false;
@@ -1343,19 +1097,13 @@
     requestAnimationFrame(() => cv.classList.add('on'));
     raf = requestAnimationFrame(frame);
   }
-  function stonks() {
-    toast(t('stonks'), 3200);
-    Market.pump();
-    rain('stonks');
-  }
-
-  /* konami → stonks */
+  /* konami → matrix */
   const KONAMI = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
   let kpos = 0;
   addEventListener('keydown', e => {
     const k = (e.key || '').toLowerCase();
     kpos = k === KONAMI[kpos] ? kpos + 1 : (k === KONAMI[0] ? 1 : 0);
-    if (kpos === KONAMI.length) { kpos = 0; stonks(); }
+    if (kpos === KONAMI.length) { kpos = 0; rain(); }
   });
 
   /* ── terminal ────────────────────────────────────────── */
@@ -1412,7 +1160,6 @@
           ['open <ad>', 'ürün/sosyal hesabı aç (ör. open debi)', 'open a product/social (e.g. open debi)'],
           ['socials', 'sosyal hesaplar', 'social accounts'],
           ['contact', 'iletişim', 'get in touch'],
-          ['stonks', 'piyasa tablosu (simüle)', 'market board (simulated)'],
           ['prime <n>', 'asallık testi + çarpanlar', 'primality test + factors'],
           ['ls · cat <dosya>', 'dosyalara göz at', 'browse files'],
           ['theme · lang', 'dark/light · tr/en', 'dark/light · tr/en'],
@@ -1469,14 +1216,6 @@
       contact() {
         print(`${L('e-posta', 'email')}: ${link(MAIL, 'bettercallhtm@gmail.com')}\n<span class="dim">${esc(L('Fikrin varsa yaz. Hızlı dönerim.', "Got an idea? Write me. I reply fast."))}</span>`);
       },
-      stonks() {
-        const rows = Market.items.map(it => {
-          const c = Market.chg(it), up = c >= 0;
-          return `<tr><td class="w">$${it.s}</td><td>${it.p.toFixed(2)}</td><td class="${up ? 'g' : 'r'}">${up ? '▲' : '▼'} ${Math.abs(c).toFixed(2)}%</td></tr>`;
-        }).join('');
-        print(`<table>${rows}</table>`);
-        print(L('* simülasyon. yatırım tavsiyesi değildir. (tabii ki)', '* simulated. not financial advice. (obviously)'), 'dim');
-      },
       prime(args) {
         const raw = args[0];
         const n = Number(raw);
@@ -1524,7 +1263,7 @@
         setLang(want);
         print(`lang → <span class="g">${want}</span>`);
       },
-      matrix() { rain('matrix'); print(L('wake up, guest… (Esc ile çık)', 'wake up, guest… (Esc to exit)'), 'g'); },
+      matrix() { rain(); print(L('wake up, guest… (Esc ile çık)', 'wake up, guest… (Esc to exit)'), 'g'); },
       sudo(args) {
         if ((args[0] || '').toLowerCase() === 'hire-me') {
           return lines([

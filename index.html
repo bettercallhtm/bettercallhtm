@@ -45,14 +45,8 @@
   <div class="bg-noise"></div>
 </div>
 
-<!-- ── header: ticker tape + nav ── -->
+<!-- ── header ── -->
 <header class="top">
-  <div class="tape">
-    <span class="tape-tag" title="Canlı veri değil — eğlencelik simülasyon"
-          data-tr-label="Canlı veri değil — eğlencelik simülasyon"
-          data-en-label="Not real data — just for fun">SIM</span>
-    <div class="tape-view"><div class="tape-track" id="tape"></div></div>
-  </div>
   <nav class="nav wrap">
     <a href="#top" class="brand" aria-label="bettercallhtm">
       <span class="brand-mark" aria-hidden="true">h</span>
@@ -60,10 +54,10 @@
     </a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#projects"><span class="nl-i">01</span><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
-        <li><a href="#lab"><span class="nl-i">03</span><span>Lab</span></a></li>
-        <li><a href="#terminal"><span class="nl-i">04</span><span>Terminal</span></a></li>
-        <li><a href="#about"><span class="nl-i">05</span><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
+        <li><a href="#projects"><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
+        <li><a href="#lab"><span>Lab</span></a></li>
+        <li><a href="#terminal"><span>Terminal</span></a></li>
+        <li><a href="#about"><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
       </ul>
       <div class="lang-switch" role="group" aria-label="Dil / Language">
         <button class="lang-opt" data-lang="tr" aria-pressed="true">TR</button>
@@ -134,10 +128,6 @@
       <div class="stat-l" data-tr="kişilik ekip" data-en="person team">kişilik ekip</div>
     </div>
     <div class="stat rv" style="--d:160ms">
-      <div class="stat-n"><span id="repo-count">—</span></div>
-      <div class="stat-l" data-tr="açık kaynak repo" data-en="public repos">açık kaynak repo</div>
-    </div>
-    <div class="stat rv" style="--d:240ms">
       <div class="stat-n"><span class="inf">∞</span></div>
       <div class="stat-l" data-tr="merak" data-en="curiosity">merak</div>
     </div>
@@ -149,7 +139,6 @@
       <span class="sec-idx">01</span>
       <h2 class="sec-title" data-tr="Portföy" data-en="Portfolio">Portföy</h2>
       <span class="sec-rule"></span>
-      <span class="sec-meta"><i class="pulse" aria-hidden="true"></i> <span data-tr="4 açık pozisyon" data-en="4 open positions">4 açık pozisyon</span></span>
     </header>
 
     <div class="grid">
@@ -264,7 +253,6 @@
         <span class="sec-idx">02</span>
         <h2 class="sec-title">Stack</h2>
         <span class="sec-rule"></span>
-        <span class="sec-meta" data-tr="gerçekten kullandıklarım" data-en="what I actually use">gerçekten kullandıklarım</span>
       </header>
     </div>
     <div class="mq rv" aria-label="TypeScript, JavaScript, React, React Native, Expo, Node.js, Python, C">
@@ -319,18 +307,12 @@
       <span class="sec-idx">03</span>
       <h2 class="sec-title">Lab</h2>
       <span class="sec-rule"></span>
-      <span class="sec-meta" data-tr="tarayıcında, canlı" data-en="live, in your browser">tarayıcında, canlı</span>
     </header>
-    <p class="sec-lede rv"
-       data-tr="Piyasaların ve oyunların içeride nasıl çalıştığını görmek için yazdığım küçük simülasyonlar. Hepsi tarayıcında, canlı ve oynanabilir."
-       data-en="Small simulations I wrote to see how markets and games work under the hood. All live and playable, right in your browser.">Piyasaların ve oyunların içeride nasıl çalıştığını görmek için yazdığım küçük simülasyonlar. Hepsi tarayıcında, canlı ve oynanabilir.</p>
-
     <div class="lab-grid">
 
-      <!-- LAB.01 · GBM -->
+      <!-- GBM Monte Carlo -->
       <article class="lab-tile wide rv" id="lab-gbm">
         <div class="lab-head">
-          <span class="lab-idx">LAB.01</span>
           <span class="lab-tag" data-tr="finans" data-en="finance">finans</span>
         </div>
         <h3 class="lab-title" data-tr="Monte Carlo · Geometrik Brown Hareketi" data-en="Monte Carlo · Geometric Brownian Motion">Monte Carlo · Geometrik Brown Hareketi</h3>
@@ -349,27 +331,9 @@
         </div>
       </article>
 
-      <!-- LAB.02 · order book -->
-      <article class="lab-tile rv" id="lab-book">
+      <!-- knight's tour -->
+      <article class="lab-tile wide rv" id="lab-knight">
         <div class="lab-head">
-          <span class="lab-idx">LAB.02</span>
-          <span class="lab-tag" lang="en">trading</span>
-        </div>
-        <h3 class="lab-title" data-tr="Canlı Emir Defteri · Derinlik" data-en="Live Order Book · Depth">Canlı Emir Defteri · Derinlik</h3>
-        <p class="lab-desc"
-           data-tr="Alıcılar solda, satıcılar sağda. Market emirleri seviyeleri yiyip bitiriyor, fiyat tick tick kayıyor. Derinlik grafiği ve emir defteri anlık akıyor. (Simülasyon.)"
-           data-en="Bids on the left, asks on the right. Market orders eat through price levels and the price moves tick by tick; the depth chart and the ladder update live. (Simulated.)">Alıcılar solda, satıcılar sağda. Market emirleri seviyeleri yiyip bitiriyor, fiyat tick tick kayıyor. Derinlik grafiği ve emir defteri anlık akıyor. (Simülasyon.)</p>
-        <canvas class="lab-canvas" id="book-canvas" role="img" aria-label="Simulated live order book with depth chart"></canvas>
-        <div class="lab-foot">
-          <div class="lab-readout" id="book-read">—</div>
-          <code class="lab-formula">imb = Σbid / (Σbid + Σask)</code>
-        </div>
-      </article>
-
-      <!-- LAB.03 · Knight -->
-      <article class="lab-tile rv" id="lab-knight" style="--d:90ms">
-        <div class="lab-head">
-          <span class="lab-idx">LAB.03</span>
           <span class="lab-tag" data-tr="satranç" data-en="chess">satranç</span>
         </div>
         <h3 class="lab-title" data-tr="At Turu · Warnsdorff" data-en="Knight's Tour · Warnsdorff">At Turu · Warnsdorff</h3>
@@ -395,14 +359,12 @@
       <span class="sec-idx">04</span>
       <h2 class="sec-title">Terminal</h2>
       <span class="sec-rule"></span>
-      <span class="sec-meta"><kbd>/</kbd> <span data-tr="ile her yerden aç" data-en="to open from anywhere">ile her yerden aç</span></span>
     </header>
     <div class="term-chips rv" role="group" aria-label="Hızlı komutlar">
       <button class="term-chip" data-cmd="help">help</button>
       <button class="term-chip" data-cmd="whoami">whoami</button>
       <button class="term-chip" data-cmd="neofetch">neofetch</button>
       <button class="term-chip" data-cmd="projects">projects</button>
-      <button class="term-chip" data-cmd="stonks">stonks</button>
       <button class="term-chip" data-cmd="prime 1729">prime 1729</button>
       <button class="term-chip" data-cmd="matrix">matrix</button>
       <button class="term-chip hot" data-cmd="sudo hire-me">sudo hire-me</button>
@@ -429,7 +391,6 @@
       <span class="sec-idx">05</span>
       <h2 class="sec-title" data-tr="Hakkımda" data-en="About">Hakkımda</h2>
       <span class="sec-rule"></span>
-      <span class="sec-meta">cat about.txt</span>
     </header>
 
     <div class="about-grid">
@@ -446,7 +407,6 @@
           <li><b>$</b><span data-tr="Finans" data-en="Finance">Finans</span></li>
           <li><b>&lt;/&gt;</b><span data-tr="Kod" data-en="Code">Kod</span></li>
           <li><b>♞</b><span data-tr="Satranç" data-en="Chess">Satranç</span></li>
-          <li><b>⌕</b><span data-tr="Suç-polisiye" data-en="Crime dramas">Suç-polisiye</span></li>
         </ul>
 
         <div class="about-actions rv">
@@ -487,7 +447,6 @@
             </div>
           </div>
           <div class="cs-row"><span data-tr="Merak" data-en="Curiosity">Merak</span><div class="bar"><i style="--v:99"></i></div><b>99</b></div>
-          <div class="cs-row"><span data-tr="Ship hızı" data-en="Ship speed">Ship hızı</span><div class="bar"><i style="--v:92"></i></div><b>92</b></div>
           <div class="cs-row"><span data-tr="Finans" data-en="Finance">Finans</span><div class="bar"><i style="--v:71"></i></div><b>71 <em>↑</em></b></div>
           <div class="cs-row"><span data-tr="Satranç" data-en="Chess">Satranç</span><div class="bar"><i style="--v:64"></i></div><b>64</b></div>
           <div class="cs-row low"><span data-tr="Uyku" data-en="Sleep">Uyku</span><div class="bar"><i style="--v:18"></i></div><b>18</b></div>
@@ -502,10 +461,6 @@
 <!-- ── footer ── -->
 <footer class="footer wrap">
   <div class="foot-top">
-    <div class="foot-status">
-      <i class="pulse" aria-hidden="true"></i>
-      <span data-tr="Tüm sistemler çalışıyor" data-en="All systems operational">Tüm sistemler çalışıyor</span>
-    </div>
     <div class="foot-clock">İstanbul <b id="clock">--:--:--</b> <span>GMT+3</span></div>
   </div>
   <div class="foot-bottom">
@@ -519,8 +474,7 @@
     </ul>
   </div>
   <div class="foot-meta">
-    <span>vanilla JS · 0 framework · 0 tracker · © 2026 Hasan Tahsin Meriç</span>
-    <span class="foot-egg" title="konami">↑ ↑ ↓ ↓ ← → ← → B A</span>
+    <span>© 2026 Hasan Tahsin Meriç</span>
   </div>
 </footer>
 
