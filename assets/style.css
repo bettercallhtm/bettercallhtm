@@ -656,6 +656,29 @@ kbd {
   transition: transform .25s var(--ease), box-shadow .25s;
 }
 .card-video:hover { transform: scale(1.02); box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--c) 60%, transparent); }
+.video-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: transform .4s var(--ease);
+}
+.card-video:hover .video-thumb { transform: scale(1.04); }
+/* over a thumbnail: play stays centred, the label sits on a dark footer */
+.video-thumb + .video-poster {
+  justify-content: flex-end;
+  padding-bottom: 14px;
+  background: linear-gradient(to top, rgba(0, 0, 0, .82), rgba(0, 0, 0, 0) 42%), rgba(0, 0, 0, .12);
+}
+.video-thumb + .video-poster .play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.card-video:hover .video-thumb + .video-poster .play { transform: translate(-50%, -50%) scale(1.1); }
 .card-video.is-soon { cursor: default; }
 .card-video.is-soon:hover { transform: none; box-shadow: none; }
 .video-poster {
