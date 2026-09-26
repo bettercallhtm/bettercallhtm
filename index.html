@@ -12,20 +12,17 @@
 <meta name="twitter:site" content="@bett3rcallhtm">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236A5CF0'/%3E%3Cstop offset='1' stop-color='%23F45D9A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M35 24 V76'/%3E%3Cpath d='M35 52 C35 40 44 36 52 36 C61 36 67 43 67 54 V76'/%3E%3C/g%3E%3C/svg%3E">
-<meta name="theme-color" content="#07080B">
+<meta name="theme-color" content="#F6F4EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F14" media="(prefers-color-scheme: dark)">
 
 <script>
   (function () {
     var d = document.documentElement;
     d.classList.add('js');
-    try { if (localStorage.getItem('theme') === 'light') d.setAttribute('data-theme', 'light'); } catch (e) {}
-    var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var booted = false;
-    try { booted = sessionStorage.getItem('booted') === '1'; } catch (e) {}
-    if (!reduced && !booted) {
-      d.classList.add('booting');
-      setTimeout(function () { d.classList.remove('booting'); }, 4000); // failsafe
-    }
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    } catch (e) {}
   })();
 </script>
 
@@ -38,19 +35,14 @@
 
 <a class="skip" href="#main" data-tr="İçeriğe geç" data-en="Skip to content">İçeriğe geç</a>
 
-<div class="bg-fx" aria-hidden="true">
-  <div class="bg-grid"></div>
-  <div class="bg-orb o1"></div>
-  <div class="bg-orb o2"></div>
-  <div class="bg-noise"></div>
-</div>
+<div class="bg-fx" aria-hidden="true"></div>
 
 <!-- ── header ── -->
 <header class="top">
   <nav class="nav wrap">
     <a href="#top" class="brand" aria-label="bettercallhtm">
       <span class="brand-mark" aria-hidden="true">h</span>
-      <span class="brand-name">bettercallhtm</span><span class="brand-caret" aria-hidden="true">_</span>
+      <span class="brand-name">bettercallhtm</span>
     </a>
     <div class="nav-right">
       <ul class="nav-links">
@@ -94,10 +86,10 @@
            data-tr="Çözülmeye değer bir problem gördüğümde hemen uygulamaya döküyorum. Restoran yönetiminden AI sohbete, satranç analizinden Kuran'a. Problem çözmeyi seviyorum."
            data-en="When I see a problem worth solving, I build it right away. From restaurant operations to AI chat, from chess analysis to the Qur'an. I love solving problems.">Çözülmeye değer bir problem gördüğümde hemen uygulamaya döküyorum. Restoran yönetiminden AI sohbete, satranç analizinden Kuran'a. Problem çözmeyi seviyorum.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary magnetic" href="#projects">
+          <a class="btn btn-primary" href="#projects">
             <span data-tr="Portföyü gör" data-en="View portfolio">Portföyü gör</span> <span aria-hidden="true">↓</span>
           </a>
-          <a class="btn btn-ghost magnetic" href="#terminal">
+          <a class="btn btn-ghost" href="#terminal">
             <span class="mono" aria-hidden="true">&gt;_</span> <span data-tr="Terminali aç" data-en="Open terminal">Terminali aç</span>
           </a>
         </div>
@@ -114,7 +106,6 @@
         </div>
       </div>
     </div>
-    <a class="scroll-hint" href="#stats" aria-label="Aşağı kaydır"><span>scroll</span><i></i></a>
   </section>
 
   <!-- ── stats ── -->
@@ -133,10 +124,9 @@
     </div>
   </section>
 
-  <!-- ── 01 portfolio ── -->
+  <!-- ── portfolio ── -->
   <section class="sec wrap" id="projects">
     <header class="sec-head rv">
-      <span class="sec-idx">01</span>
       <h2 class="sec-title" data-tr="Portföy" data-en="Portfolio">Portföy</h2>
       <span class="sec-rule"></span>
     </header>
@@ -246,65 +236,36 @@
     </div>
   </section>
 
-  <!-- ── 02 stack ── -->
+  <!-- ── stack ── -->
   <section class="sec" id="stack">
     <div class="wrap">
       <header class="sec-head rv">
-        <span class="sec-idx">02</span>
         <h2 class="sec-title">Stack</h2>
         <span class="sec-rule"></span>
       </header>
-    </div>
-    <div class="mq rv" aria-label="TypeScript, JavaScript, React, React Native, Expo, Node.js, Python, C">
-      <div class="mq-track">
-        <span class="pill"><i style="--p:#3178C6"></i>TypeScript</span>
-        <span class="pill"><i style="--p:#F7DF1E"></i>JavaScript</span>
-        <span class="pill"><i style="--p:#61DAFB"></i>React</span>
-        <span class="pill"><i style="--p:#61DAFB"></i>React Native</span>
-        <span class="pill"><i style="--p:#A0A0FF"></i>Expo</span>
-        <span class="pill"><i style="--p:#5FA04E"></i>Node.js</span>
-        <span class="pill"><i style="--p:#FFD43B"></i>Python</span>
-        <span class="pill"><i style="--p:#A8B9CC"></i>C</span>
-      </div>
-      <div class="mq-track" aria-hidden="true">
-        <span class="pill"><i style="--p:#3178C6"></i>TypeScript</span>
-        <span class="pill"><i style="--p:#F7DF1E"></i>JavaScript</span>
-        <span class="pill"><i style="--p:#61DAFB"></i>React</span>
-        <span class="pill"><i style="--p:#61DAFB"></i>React Native</span>
-        <span class="pill"><i style="--p:#A0A0FF"></i>Expo</span>
-        <span class="pill"><i style="--p:#5FA04E"></i>Node.js</span>
-        <span class="pill"><i style="--p:#FFD43B"></i>Python</span>
-        <span class="pill"><i style="--p:#A8B9CC"></i>C</span>
-      </div>
-    </div>
-    <div class="mq mq-rev rv" aria-label="HTML/CSS, Canvas, Vercel, Netlify, Vitest, Git, GitHub, LLM API">
-      <div class="mq-track">
-        <span class="pill"><i style="--p:#E34F26"></i>HTML / CSS</span>
-        <span class="pill"><i style="--p:#3DFFA2"></i>Canvas 2D</span>
-        <span class="pill"><i style="--p:#FFFFFF"></i>Vercel</span>
-        <span class="pill"><i style="--p:#32E6E2"></i>Netlify</span>
-        <span class="pill"><i style="--p:#729B1B"></i>Vitest</span>
-        <span class="pill"><i style="--p:#F05032"></i>Git</span>
-        <span class="pill"><i style="--p:#8F84FF"></i>GitHub</span>
-        <span class="pill"><i style="--p:#F45D9A"></i>LLM API</span>
-      </div>
-      <div class="mq-track" aria-hidden="true">
-        <span class="pill"><i style="--p:#E34F26"></i>HTML / CSS</span>
-        <span class="pill"><i style="--p:#3DFFA2"></i>Canvas 2D</span>
-        <span class="pill"><i style="--p:#FFFFFF"></i>Vercel</span>
-        <span class="pill"><i style="--p:#32E6E2"></i>Netlify</span>
-        <span class="pill"><i style="--p:#729B1B"></i>Vitest</span>
-        <span class="pill"><i style="--p:#F05032"></i>Git</span>
-        <span class="pill"><i style="--p:#8F84FF"></i>GitHub</span>
-        <span class="pill"><i style="--p:#F45D9A"></i>LLM API</span>
-      </div>
+      <ul class="stack-list rv">
+        <li class="pill"><i style="--p:#3178C6"></i>TypeScript</li>
+        <li class="pill"><i style="--p:#F7DF1E"></i>JavaScript</li>
+        <li class="pill"><i style="--p:#61DAFB"></i>React</li>
+        <li class="pill"><i style="--p:#61DAFB"></i>React Native</li>
+        <li class="pill"><i style="--p:#A0A0FF"></i>Expo</li>
+        <li class="pill"><i style="--p:#5FA04E"></i>Node.js</li>
+        <li class="pill"><i style="--p:#FFD43B"></i>Python</li>
+        <li class="pill"><i style="--p:#A8B9CC"></i>C</li>
+        <li class="pill"><i style="--p:#E34F26"></i>HTML / CSS</li>
+        <li class="pill"><i class="mono-dot"></i>Vercel</li>
+        <li class="pill"><i style="--p:#32E6E2"></i>Netlify</li>
+        <li class="pill"><i style="--p:#729B1B"></i>Vitest</li>
+        <li class="pill"><i style="--p:#F05032"></i>Git</li>
+        <li class="pill"><i style="--p:#8F84FF"></i>GitHub</li>
+        <li class="pill"><i style="--p:#F45D9A"></i>LLM API</li>
+      </ul>
     </div>
   </section>
 
-  <!-- ── 03 lab ── -->
+  <!-- ── lab ── -->
   <section class="sec wrap" id="lab">
     <header class="sec-head rv">
-      <span class="sec-idx">03</span>
       <h2 class="sec-title">Lab</h2>
       <span class="sec-rule"></span>
     </header>
@@ -353,10 +314,9 @@
     </div>
   </section>
 
-  <!-- ── 04 terminal ── -->
+  <!-- ── terminal ── -->
   <section class="sec wrap" id="terminal">
     <header class="sec-head rv">
-      <span class="sec-idx">04</span>
       <h2 class="sec-title">Terminal</h2>
       <span class="sec-rule"></span>
     </header>
@@ -385,10 +345,9 @@
     </div>
   </section>
 
-  <!-- ── 05 about ── -->
+  <!-- ── about ── -->
   <section class="sec wrap" id="about">
     <header class="sec-head rv">
-      <span class="sec-idx">05</span>
       <h2 class="sec-title" data-tr="Hakkımda" data-en="About">Hakkımda</h2>
       <span class="sec-rule"></span>
     </header>
@@ -410,7 +369,7 @@
         </ul>
 
         <div class="about-actions rv">
-          <a class="btn btn-primary magnetic" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=bettercallhtm@gmail.com" target="_blank" rel="noopener">
+          <a class="btn btn-primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=bettercallhtm@gmail.com" target="_blank" rel="noopener">
             bettercallhtm@gmail.com <span aria-hidden="true">→</span>
           </a>
           <div class="socials">

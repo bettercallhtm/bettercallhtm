@@ -37,7 +37,8 @@
     Object.assign(C, {
       bg: g('bg'), bg2: g('bg-2'), surface: g('surface'), surface2: g('surface-2'),
       text: g('text'), textMuted: g('text-muted'), textDim: g('text-dim'),
-      accent: g('accent'), accent2: g('accent-2'), down: g('down'), warn: g('warn'),
+      accent: g('accent'), accent2: g('accent-2'), up: g('up'), down: g('down'),
+      winAccent: g('win-accent'),
       sqA: g('sq-a'), sqB: g('sq-b'), bgRGB: g('bg-rgb'),
     });
   }
@@ -107,7 +108,6 @@
       knightRead: (n, s) => `hamle <b>${n}</b>/64 · başlangıç <b>${s}</b>`,
       knightDone: 'tur tamam ✓',
       reduced: 'Hareket azaltma açık — animasyon pas geçildi',
-      bootSkip: 'geçmek için tıkla',
     },
     en: {
       roles: ['solo founder', 'ship > talk', 'finance & trading nerd', 'writes, compiles, ships', 'chess addict', 'ITU ECE · senior'],
@@ -116,7 +116,6 @@
       knightRead: (n, s) => `move <b>${n}</b>/64 · start <b>${s}</b>`,
       knightDone: 'tour complete ✓',
       reduced: 'Reduced motion is on — animation skipped',
-      bootSkip: 'click to skip',
     },
   };
   let LANG = 'tr';
@@ -144,61 +143,25 @@
   setLang(LANG);
 
   /* ── theme ───────────────────────────────────────────── */
+  /* follows the OS setting until the visitor picks one with the switch */
   const themeBtn = $('#theme-switch');
-  function setTheme(th) {
-    if (th === 'light') root.setAttribute('data-theme', 'light');
-    else root.removeAttribute('data-theme');
-    try { localStorage.setItem('theme', th); } catch (e) {}
-    themeBtn.setAttribute('aria-checked', String(th !== 'light'));
+  const systemDark = matchMedia('(prefers-color-scheme: dark)');
+  const currentTheme = () => root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light');
+  function applyTheme() {
+    themeBtn.setAttribute('aria-checked', String(currentTheme() === 'dark'));
     readColors();
-    $('meta[name="theme-color"]').setAttribute('content', C.bg);
     emit('theme');
   }
-  const currentTheme = () => (root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  function setTheme(th) {
+    root.setAttribute('data-theme', th);
+    try { localStorage.setItem('theme', th); } catch (e) {}
+    applyTheme();
+  }
   themeBtn.setAttribute('aria-checked', String(currentTheme() === 'dark'));
   themeBtn.addEventListener('click', () => setTheme(currentTheme() === 'light' ? 'dark' : 'light'));
+  systemDark.addEventListener('change', () => { if (!root.hasAttribute('data-theme')) applyTheme(); });
 
-  /* ── boot sequence ───────────────────────────────────── */
-  const booted = new Promise(resolve => {
-    if (!root.classList.contains('booting')) return resolve();
-    const lines = [
-      ['ok', 'bettercallhtm bios v2026.9'],
-      ['ok', 'mounting /dev/curiosity'],
-      ['ok', 'loading modules: finance · math · chess · code'],
-      ['ok', 'warming up the candlestick chart'],
-      ['ok', 'compiling ego… 0 warnings'],
-      ['go', '> ACCESS GRANTED'],
-    ];
-    const el = document.createElement('div');
-    el.className = 'boot';
-    el.setAttribute('aria-hidden', 'true');
-    el.innerHTML = `<div class="boot-box"><pre class="boot-log"></pre><div class="boot-bar"><span></span></div><div class="boot-skip">${esc(t('bootSkip'))}</div></div>`;
-    document.body.appendChild(el);
-    root.classList.remove('booting');
-    const log = $('.boot-log', el), bar = $('.boot-bar span', el);
-    let i = 0, finished = false, timer = 0;
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      clearTimeout(timer);
-      try { sessionStorage.setItem('booted', '1'); } catch (e) {}
-      el.classList.add('done');
-      setTimeout(() => el.remove(), 600);
-      resolve();
-    };
-    const next = () => {
-      if (i >= lines.length) { timer = setTimeout(finish, 320); return; }
-      const [k, txt] = lines[i++];
-      log.innerHTML += k === 'ok'
-        ? `<span class="ok">[  OK  ]</span> ${esc(txt)}\n`
-        : `\n<span class="go">${esc(txt)}</span>`;
-      bar.style.transform = `scaleX(${i / lines.length})`;
-      timer = setTimeout(next, 150 + Math.random() * 90);
-    };
-    el.addEventListener('click', finish);
-    addEventListener('keydown', finish, { once: true });
-    next();
-  });
+  const booted = Promise.resolve();
 
   /* ── header: scroll progress + active link ───────────── */
   const progress = $('#progress');
@@ -349,7 +312,7 @@
   (() => {
     const canvas = $('#hero-canvas');
     const hero = $('.hero');
-    const STEP = 13, BODY = 7, PAD_R = 92, SPEED = STEP / 950;
+    const STEP = 13, BODY = 7, PAD_R = 92, SPEED = STEP / 1600;
     let candles = [], offset = 0, anchor = 142, yMin = 0, yMax = 0, mouse = null;
     let target = 0, lastJitter = 0;
 
@@ -402,7 +365,7 @@
       for (let i = 0; i < n; i++) {
         const c = candles[i], x = X(i);
         if (x < -STEP || x > w) continue;
-        const up = c.c >= c.o, col = up ? C.accent : C.down;
+        const up = c.c >= c.o, col = up ? C.up : C.down;
         ctx.strokeStyle = col;
         ctx.fillStyle = up ? rgba(col, 0.85) : col;
         ctx.beginPath();
@@ -417,7 +380,7 @@
       }
 
       // SMA 20
-      ctx.strokeStyle = rgba(C.accent2, 0.9);
+      ctx.strokeStyle = rgba(C.accent, 0.8);
       ctx.lineWidth = 1.6;
       ctx.beginPath();
       let started = false, sum = 0;
@@ -438,11 +401,11 @@
       const last = candles[n - 1];
       const ly = Y(last.c), lup = last.c >= last.o;
       ctx.setLineDash([3, 4]);
-      ctx.strokeStyle = rgba(lup ? C.accent : C.down, 0.6);
+      ctx.strokeStyle = rgba(lup ? C.up : C.down, 0.5);
       ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(w - PAD_R + 10, ly); ctx.stroke();
       ctx.setLineDash([]);
-      ctx.fillStyle = lup ? C.accent : C.down;
+      ctx.fillStyle = lup ? C.up : C.down;
       ctx.fillRect(w - PAD_R + 12, ly - 10, 74, 20);
       ctx.fillStyle = C.bg;
       ctx.fillText(last.c.toFixed(2), w - PAD_R + 17, ly + 0.5);
@@ -508,7 +471,7 @@
     loop(canvas, frame);
   })();
 
-  /* ── portfolio: per-product live viz, tilt, spotlight ── */
+  /* ── portfolio: per-product viz + hover spotlight ────── */
   function rr(ctx, x, y, w, h, r) {
     r = Math.min(r, w / 2, h / 2);
     ctx.beginPath();
@@ -556,12 +519,12 @@
             acc = hi;
             const served = Math.min(hi, CAP);
             if (served > lo) {
-              ctx.fillStyle = rgba(PLAT[k], 0.85);
+              ctx.fillStyle = rgba(PLAT[k], 0.62);
               ctx.fillRect(x, base - served * H, CW, (served - lo) * H);
             }
             const tLo = Math.max(lo, CAP);
             if (hi > tLo) {
-              ctx.strokeStyle = rgba(PLAT[k], 0.5);
+              ctx.strokeStyle = rgba(PLAT[k], 0.4);
               ctx.strokeRect(x + 0.5, base - hi * H + 0.5, CW - 1, Math.max(0, (hi - tLo) * H - 1));
             }
           }
@@ -748,35 +711,33 @@
       let render = null;
       const S = setupCanvas(cv, () => render && render(0, performance.now()));
       render = VIZ[cv.dataset.viz](S, color);
-      if (REDUCED) { render(16, 0); on('theme', () => render(0, 0)); }
-      else loop(cv, (now, dt) => render(dt, now));
+      // a big first step settles each viz into a natural-looking still frame
+      render(1200, performance.now());
+      on('theme', () => render(0, performance.now()));
+      if (!REDUCED && FINE) {
+        // desktop: stay still, only come alive while the card is hovered
+        let raf = 0, last = 0;
+        const tick = now => {
+          render(last ? Math.min(64, now - last) : 16, now);
+          last = now;
+          raf = requestAnimationFrame(tick);
+        };
+        card.addEventListener('pointerenter', () => { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } });
+        card.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); raf = 0; });
+      } else if (!REDUCED) {
+        // touch: no hover, so animate while the card is on screen
+        loop(cv, (now, dt) => render(dt, now));
+      }
     }
 
     if (FINE && !REDUCED) {
       card.addEventListener('pointermove', e => {
         const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
-        if (card.classList.contains('settled')) {
-          card.style.transform = `perspective(1000px) rotateX(${((0.5 - py) * 5).toFixed(2)}deg) rotateY(${((px - 0.5) * 6).toFixed(2)}deg) translateY(-4px)`;
-        }
+        card.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+        card.style.setProperty('--my', (((e.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
       });
-      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
     }
   });
-
-  /* magnetic buttons */
-  if (FINE && !REDUCED) {
-    $$('.magnetic').forEach(el => {
-      el.addEventListener('pointermove', e => {
-        const r = el.getBoundingClientRect();
-        const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-        el.style.transform = `translate(${dx * 0.18}px, ${dy * 0.3}px)`;
-      });
-      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-    });
-  }
 
   /* ── lab: GBM Monte Carlo ───────────────────────────── */
   (() => {
@@ -866,7 +827,7 @@
       // paths
       const n = Math.floor(prog);
       for (const p of paths) {
-        ctx.strokeStyle = rgba(p[STEPS] > S0 ? C.accent : C.down, 0.3);
+        ctx.strokeStyle = rgba(p[STEPS] > S0 ? C.up : C.down, 0.28);
         ctx.beginPath();
         ctx.moveTo(X(0), Y(p[0]));
         for (let i = 1; i <= n; i++) ctx.lineTo(X(i), Y(p[i]));
@@ -877,7 +838,7 @@
         for (const p of paths) { ctx.beginPath(); ctx.arc(X(n), Y(p[n]), 1.4, 0, Math.PI * 2); ctx.fill(); }
       }
       // mean path
-      ctx.strokeStyle = C.accent2;
+      ctx.strokeStyle = C.accent;
       ctx.lineWidth = 2.4;
       ctx.beginPath();
       ctx.moveTo(X(0), Y(mean[0]));
@@ -894,7 +855,7 @@
           if (!counts[b]) continue;
           const y1 = B - ((b + 1) / BINS) * (B - T), y2 = B - (b / BINS) * (B - T);
           const center = Math.exp(lo + ((b + 0.5) / BINS) * (hi - lo));
-          ctx.fillStyle = rgba(center > S0 ? C.accent : C.down, 0.7 * a);
+          ctx.fillStyle = rgba(center > S0 ? C.up : C.down, 0.6 * a);
           ctx.fillRect(R + 10, y1 + 0.5, (counts[b] / maxC) * bw * a, Math.max(1, y2 - y1 - 1));
         }
         ctx.fillStyle = rgba(C.textDim, a);
@@ -1012,10 +973,8 @@
       // knight
       const cur = path[Math.max(0, shown - 1)];
       ctx.font = `${sq * 0.74}px "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", serif`;
-      ctx.shadowColor = C.accent; ctx.shadowBlur = 14;
       ctx.fillStyle = C.text;
       ctx.fillText('♞', cx(cur), cy(cur) + sq * 0.03);
-      ctx.shadowBlur = 0;
     }
     function start(sx, sy) {
       cancelAnimationFrame(raf);
@@ -1083,7 +1042,7 @@
         ctx.font = `${fs}px "JetBrains Mono", monospace`;
         for (let i = 0; i < cols; i++) {
           const y = drops[i] * fs;
-          ctx.fillStyle = Math.random() < 0.04 ? '#FFFFFF' : C.accent;
+          ctx.fillStyle = Math.random() < 0.04 ? '#FFFFFF' : C.winAccent;
           ctx.fillText(chars[(Math.random() * chars.length) | 0], i * fs, y);
           if (y > h && Math.random() > 0.975) drops[i] = 0;
           drops[i]++;
@@ -1342,27 +1301,6 @@
     welcome();
     on('lang', () => { if (!hist.length) welcome(); });
   })();
-
-  /* ── cursor ring ─────────────────────────────────────── */
-  if (FINE && !REDUCED) {
-    const ring = document.createElement('div');
-    ring.className = 'cursor';
-    ring.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(ring);
-    let x = -100, y = -100, tx = -100, ty = -100;
-    addEventListener('pointermove', e => {
-      tx = e.clientX; ty = e.clientY;
-      ring.classList.add('on');
-      ring.classList.toggle('big', !!e.target.closest('a, button, input, canvas, .card-video, .term-body'));
-    }, { passive: true });
-    document.documentElement.addEventListener('mouseleave', () => ring.classList.remove('on'));
-    const tick = () => {
-      x += (tx - x) * 0.2; y += (ty - y) * 0.2;
-      ring.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
 
   /* ── video lightbox ──────────────────────────────────── */
   (() => {
