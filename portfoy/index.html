@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portföy — bettercallhtm</title>
+<meta name="description" content="Hasan Tahsin Meriç'in yayındaki ürünleri: Debi, Nightjar, Pratik Satranç Analizi, Laftan, Liman.">
+<link rel="canonical" href="https://bettercallhtm.com/portfoy">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bettercallhtm">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:url" content="https://bettercallhtm.com/portfoy">
+<meta property="og:title" content="Portföy — bettercallhtm">
+<meta property="og:description" content="Solo founder. Ship > talk. Trading, kod ve satranç.">
+<meta property="og:image" content="https://bettercallhtm.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="bettercallhtm — Hasan Tahsin Meriç. Debi, Satranç, Laftan, Liman.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@bett3rcallhtm">
+<meta name="twitter:image" content="https://bettercallhtm.com/assets/img/og.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236A5CF0'/%3E%3Cstop offset='1' stop-color='%23F45D9A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M35 24 V76'/%3E%3Cpath d='M35 52 C35 40 44 36 52 36 C61 36 67 43 67 54 V76'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#F6F4EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F14" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preload" href="/assets/fonts/space-grotesk-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-tr="İçeriğe geç" data-en="Skip to content">İçeriğe geç</a>
+
+<div class="bg-fx" aria-hidden="true"></div>
+
+<!-- ── header ── -->
+<header class="top">
+  <nav class="nav wrap">
+    <a href="/" class="brand" aria-label="bettercallhtm">
+      <span class="brand-mark" aria-hidden="true">h</span>
+      <span class="brand-name">bettercallhtm</span>
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/portfoy" aria-current="page"><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
+        <li><a href="/lab"><span>Lab</span></a></li>
+        <li><a href="/terminal"><span>Terminal</span></a></li>
+        <li><a href="/hakkimda"><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
+      </ul>
+      <div class="lang-switch" role="group" aria-label="Dil / Language">
+        <button class="lang-opt" data-lang="tr" aria-pressed="true">TR</button>
+        <button class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="switch" id="theme-switch" role="switch" aria-checked="true"
+              data-tr-label="Koyu tema" data-en-label="Dark theme" aria-label="Koyu tema">
+        <span class="switch-knob"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+  <!-- ── page head ── -->
+  <section class="page-head wrap">
+    <p class="crumb"><a href="/">~</a>/portfoy</p>
+    <h1 class="page-title" data-tr="Portföy" data-en="Portfolio">Portföy</h1>
+    <p class="page-lead" data-tr="Tek başıma tasarlayıp kodladığım ve yayına aldığım ürünler. Her biri gerçek bir problemden çıktı." data-en="Products I designed, built and shipped on my own. Each one came out of a real problem.">Tek başıma tasarlayıp kodladığım ve yayına aldığım ürünler. Her biri gerçek bir problemden çıktı.</p>
+  </section>
+  <!-- ── portfolio ── -->
+  <section class="page-body wrap" id="projects">
+
+    <div class="grid">
+
+      <article class="card rv" style="--c:#55C57A; --d:0ms">
+        <div class="card-top">
+          <span class="ticker">$DEBI</span>
+          <span class="live"><i></i>LIVE</span>
+        </div>
+        <canvas class="viz" data-viz="debi" aria-hidden="true"></canvas>
+        <div class="card-main">
+          <span class="chip" data-tr="SaaS · Restoran" data-en="SaaS · Restaurant">SaaS · Restoran</span>
+          <a class="card-name" href="https://getdebi.com/" target="_blank" rel="noopener">
+            <span>Debi</span> <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <p class="card-desc"
+             data-tr="Restoran ve marketler için yoğun saat yönetim yazılımı. Uber Eats, GetirYemek, Yemeksepeti ve Migros Yemek yükünü aynı anda izler; ceza riskini azaltmak için sipariş akışını dengeler, iş normale dönünce geri çekilir."
+             data-en="Rush-hour management software for restaurants and markets. It watches Uber Eats, GetirYemek, Yemeksepeti and Migros Yemek load at once; balances order flow to cut penalty risk, then eases off once things calm down.">Restoran ve marketler için yoğun saat yönetim yazılımı. Uber Eats, GetirYemek, Yemeksepeti ve Migros Yemek yükünü aynı anda izler; ceza riskini azaltmak için sipariş akışını dengeler, iş normale dönünce geri çekilir.</p>
+          <p class="card-tag" data-tr="&quot;Yoğun saatlerin cezası kârınızdan çıkmasın.&quot;" data-en="&quot;Don't let rush-hour penalties eat your profit.&quot;">"Yoğun saatlerin cezası kârınızdan çıkmasın."</p>
+        </div>
+        <div class="card-video is-soon">
+          <img class="video-thumb" src="/assets/img/promo-debi.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
+          <span class="video-poster">
+            <span class="video-label" data-tr="Tanıtım yakında" data-en="Promo coming soon">Tanıtım yakında</span>
+          </span>
+        </div>
+      </article>
+
+      <article class="card rv" style="--c:#FF6B4A; --d:90ms">
+        <div class="card-top">
+          <span class="ticker">$NJAR</span>
+          <span class="live"><i></i>LIVE</span>
+        </div>
+        <canvas class="viz" data-viz="nightjar" aria-hidden="true"></canvas>
+        <div class="card-main">
+          <span class="chip" data-tr="Oyun · Gizlilik" data-en="Game · Stealth">Oyun · Gizlilik</span>
+          <a class="card-name" href="/nightjar" target="_blank" rel="noopener">
+            <span>Nightjar</span> <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <p class="card-desc"
+             data-tr="2D gizlilik platform oyunu. Devriyeleri oku, çalılarda saklan, nöbetçileri arkadan etkisiz hâle getir. 10 bölgede 100 elle tasarlanmış bölüm; reklamsız, internetsiz. Tarayıcıda hemen oynanır."
+             data-en="A 2D stealth platformer. Read the patrols, hide in the bushes, take guards down from behind. 100 hand-made levels across 10 regions; no ads, fully offline. Plays right in your browser.">2D gizlilik platform oyunu. Devriyeleri oku, çalılarda saklan, nöbetçileri arkadan etkisiz hâle getir. 10 bölgede 100 elle tasarlanmış bölüm; reklamsız, internetsiz. Tarayıcıda hemen oynanır.</p>
+          <p class="card-tag" data-tr="&quot;Tim dediğin ses çıkarır. Sen tek başınasın.&quot;" data-en="&quot;Teams make noise. You go alone.&quot;">"Tim dediğin ses çıkarır. Sen tek başınasın."</p>
+          <a class="card-play" href="/nightjar" target="_blank" rel="noopener">
+            <span aria-hidden="true">▶</span> <span data-tr="Tarayıcıda oyna" data-en="Play in browser">Tarayıcıda oyna</span>
+          </a>
+        </div>
+        <div class="card-video is-soon">
+          <img class="video-thumb" src="/assets/img/promo-nightjar.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
+          <span class="video-poster">
+            <span class="video-label" data-tr="Tanıtım yakında" data-en="Promo coming soon">Tanıtım yakında</span>
+          </span>
+        </div>
+      </article>
+
+      <article class="card rv" style="--c:#17BEBB; --d:0ms">
+        <div class="card-top">
+          <span class="ticker">$CHESS</span>
+          <span class="live"><i></i>LIVE</span>
+        </div>
+        <canvas class="viz" data-viz="chess" aria-hidden="true"></canvas>
+        <div class="card-main">
+          <span class="chip" data-tr="Satranç · Araç" data-en="Chess · Tool">Satranç · Araç</span>
+          <a class="card-name" href="https://pratiksatrancanaliz.getdebihook.com/" target="_blank" rel="noopener">
+            <span data-tr="Pratik Satranç Analizi" data-en="Quick Chess Analysis">Pratik Satranç Analizi</span> <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <p class="card-desc"
+             data-tr="Lichess veya Chess.com kullanıcı adını gir; hamleler motora gönderilsin; analiz özeti gelsin. Derinlemesine inceleme değil — pratik, hızlı geri bildirim."
+             data-en="Enter your Lichess or Chess.com username; your moves go to the engine; you get an analysis summary. Not a deep dive — quick, practical feedback.">Lichess veya Chess.com kullanıcı adını gir; hamleler motora gönderilsin; analiz özeti gelsin. Derinlemesine inceleme değil — pratik, hızlı geri bildirim.</p>
+        </div>
+        <button class="card-video" data-video="3MTliR243Kk"
+                data-tr-label="Pratik Satranç Analizi tanıtım filmini izle" data-en-label="Watch the Quick Chess Analysis promo"
+                aria-label="Pratik Satranç Analizi tanıtım filmini izle">
+          <img class="video-thumb" src="/assets/img/promo-chess.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
+          <span class="video-poster">
+            <span class="play" aria-hidden="true">&#9654;</span>
+            <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
+          </span>
+        </button>
+      </article>
+
+      <article class="card rv" style="--c:#F45D9A; --d:90ms">
+        <div class="card-top">
+          <span class="ticker">$LAFTAN</span>
+          <span class="live"><i></i>LIVE</span>
+        </div>
+        <canvas class="viz" data-viz="laftan" aria-hidden="true"></canvas>
+        <div class="card-main">
+          <span class="chip" data-tr="AI · Sohbet" data-en="AI · Chat">AI · Sohbet</span>
+          <a class="card-name" href="https://laftan.vercel.app/" target="_blank" rel="noopener">
+            <span>Laftan</span> <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <p class="card-desc"
+             data-tr="Farklı karakterlerle metin üzerinden sohbet eden bir AI uygulaması. Elif, Kaan ve diğerleri — her biri kendi sesi, kendi duruşu olan karakterler."
+             data-en="An AI app for chatting by text with distinct characters. Elif, Kaan and others — each with their own voice and attitude.">Farklı karakterlerle metin üzerinden sohbet eden bir AI uygulaması. Elif, Kaan ve diğerleri — her biri kendi sesi, kendi duruşu olan karakterler.</p>
+          <p class="card-tag" data-tr="&quot;Lafın insan olmuş hali.&quot;" data-en="&quot;Words, in human form.&quot;">"Lafın insan olmuş hali."</p>
+        </div>
+        <button class="card-video" data-video="nBwOXwsU0do"
+                data-tr-label="Laftan tanıtım filmini izle" data-en-label="Watch the Laftan promo"
+                aria-label="Laftan tanıtım filmini izle">
+          <img class="video-thumb" src="/assets/img/promo-laftan.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
+          <span class="video-poster">
+            <span class="play" aria-hidden="true">&#9654;</span>
+            <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
+          </span>
+        </button>
+      </article>
+
+      <article class="card rv" style="--c:#E8A93A; --d:0ms">
+        <div class="card-top">
+          <span class="ticker">$LIMAN</span>
+          <span class="live"><i></i>LIVE</span>
+        </div>
+        <canvas class="viz" data-viz="liman" aria-hidden="true"></canvas>
+        <div class="card-main">
+          <span class="chip" data-tr="İslami · Uygulama" data-en="Faith · App">İslami · Uygulama</span>
+          <a class="card-name" href="https://liman-eosin.vercel.app/" target="_blank" rel="noopener">
+            <span>Liman</span> <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <p class="card-desc"
+             data-tr="Ruh hâlini veya yaşadığın bir anı yazıyorsun; Kur'an'dan o hâle dokunan bir ayet ve dua geliyor. Hiçbir şey sunucuya gönderilmiyor — eşleştirme cihazının içinde hesaplanıyor."
+             data-en="You write how you feel or something you're going through; a verse from the Qur'an that speaks to that state, plus a prayer, comes back. Nothing is sent to a server — the matching runs on your device.">Ruh hâlini veya yaşadığın bir anı yazıyorsun; Kur'an'dan o hâle dokunan bir ayet ve dua geliyor. Hiçbir şey sunucuya gönderilmiyor — eşleştirme cihazının içinde hesaplanıyor.</p>
+          <p class="card-tag" data-tr="&quot;Nasıl hissediyorsan, ona bir ayet.&quot;" data-en="&quot;However you feel, a verse for it.&quot;">"Nasıl hissediyorsan, ona bir ayet."</p>
+        </div>
+        <button class="card-video" data-video="bjtk8aWE45w"
+                data-tr-label="Liman tanıtım filmini izle" data-en-label="Watch the Liman promo"
+                aria-label="Liman tanıtım filmini izle">
+          <img class="video-thumb" src="/assets/img/promo-liman.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
+          <span class="video-poster">
+            <span class="play" aria-hidden="true">&#9654;</span>
+            <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
+          </span>
+        </button>
+      </article>
+
+      <article class="card card-next rv" style="--d:90ms">
+        <div class="card-top">
+          <span class="ticker">$NEXT</span>
+          <span class="live building"><i></i>BUILDING</span>
+        </div>
+        <div class="card-main">
+          <p class="next-code" aria-hidden="true"><span class="t-ps">~/htm $</span> ship --next<span class="caret"></span></p>
+          <p class="card-name" data-tr="Sıradaki fikir" data-en="Next idea">Sıradaki fikir</p>
+          <p class="card-desc"
+             data-tr="Şu an derleniyor. Aklına bir problem geldiyse ve çözülmeye değer olduğunu düşünüyorsan yaz; belki sıradaki ürün o olur."
+             data-en="Compiling right now. If you have a problem you think is worth solving, write to me. It might be the next product.">Şu an derleniyor. Aklına bir problem geldiyse ve çözülmeye değer olduğunu düşünüyorsan yaz; belki sıradaki ürün o olur.</p>
+          <a class="card-play" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=bettercallhtm@gmail.com" target="_blank" rel="noopener">
+            <span aria-hidden="true">✉</span> <span data-tr="Fikrini yaz" data-en="Pitch an idea">Fikrini yaz</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+</main>
+
+<!-- ── footer ── -->
+<footer class="footer wrap">
+  <div class="foot-top">
+    <div class="foot-clock">İstanbul <b id="clock">--:--:--</b> <span>GMT+3</span></div>
+  </div>
+  <div class="foot-bottom">
+    <span class="footer-sig">bettercallhtm</span>
+    <ul class="footer-links">
+      <li><a href="https://getdebi.com" target="_blank" rel="noopener">Debi</a></li>
+      <li><a href="/nightjar" target="_blank" rel="noopener">Nightjar</a></li>
+      <li><a href="https://pratiksatrancanaliz.getdebihook.com" target="_blank" rel="noopener" data-tr="Satranç" data-en="Chess">Satranç</a></li>
+      <li><a href="https://laftan.vercel.app" target="_blank" rel="noopener">Laftan</a></li>
+      <li><a href="https://liman-eosin.vercel.app" target="_blank" rel="noopener">Liman</a></li>
+      <li><a href="https://www.youtube.com/@bettercallhtm" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+  </div>
+  <div class="foot-meta">
+    <span>© 2026 Hasan Tahsin Meriç</span>
+  </div>
+</footer>
+
+<!-- ── video lightbox ── -->
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lb-backdrop" data-close></div>
+  <div class="lb-content">
+    <button class="lb-close" data-close aria-label="Kapat">&times;</button>
+    <div class="lb-frame">
+      <iframe id="lb-iframe" title="Tanıtım filmi"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+      <video id="lb-video" controls playsinline preload="none" hidden></video>
+    </div>
+    <a class="lb-yt" id="lb-yt" href="#" target="_blank" rel="noopener"
+       data-tr="YouTube'da aç ↗" data-en="Open on YouTube ↗">YouTube'da aç ↗</a>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/assets/app.js" defer></script>
+</body>
+</html>

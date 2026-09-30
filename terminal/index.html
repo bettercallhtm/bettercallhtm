@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal — bettercallhtm</title>
+<meta name="description" content="bettercallhtm'i komut satırından gez: htmsh 1.0.">
+<link rel="canonical" href="https://bettercallhtm.com/terminal">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bettercallhtm">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:url" content="https://bettercallhtm.com/terminal">
+<meta property="og:title" content="Terminal — bettercallhtm">
+<meta property="og:description" content="Solo founder. Ship > talk. Trading, kod ve satranç.">
+<meta property="og:image" content="https://bettercallhtm.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="bettercallhtm — Hasan Tahsin Meriç. Debi, Satranç, Laftan, Liman.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@bett3rcallhtm">
+<meta name="twitter:image" content="https://bettercallhtm.com/assets/img/og.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236A5CF0'/%3E%3Cstop offset='1' stop-color='%23F45D9A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M35 24 V76'/%3E%3Cpath d='M35 52 C35 40 44 36 52 36 C61 36 67 43 67 54 V76'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#F6F4EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F14" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preload" href="/assets/fonts/space-grotesk-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-tr="İçeriğe geç" data-en="Skip to content">İçeriğe geç</a>
+
+<div class="bg-fx" aria-hidden="true"></div>
+
+<!-- ── header ── -->
+<header class="top">
+  <nav class="nav wrap">
+    <a href="/" class="brand" aria-label="bettercallhtm">
+      <span class="brand-mark" aria-hidden="true">h</span>
+      <span class="brand-name">bettercallhtm</span>
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/portfoy"><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
+        <li><a href="/lab"><span>Lab</span></a></li>
+        <li><a href="/terminal" aria-current="page"><span>Terminal</span></a></li>
+        <li><a href="/hakkimda"><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
+      </ul>
+      <div class="lang-switch" role="group" aria-label="Dil / Language">
+        <button class="lang-opt" data-lang="tr" aria-pressed="true">TR</button>
+        <button class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="switch" id="theme-switch" role="switch" aria-checked="true"
+              data-tr-label="Koyu tema" data-en-label="Dark theme" aria-label="Koyu tema">
+        <span class="switch-knob"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+  <!-- ── page head ── -->
+  <section class="page-head wrap">
+    <p class="crumb"><a href="/">~</a>/terminal</p>
+    <h1 class="page-title">Terminal</h1>
+    <p class="page-lead" data-tr="Siteyi komut satırından gez. help yazarak başla; cd ile sayfalar arasında dolaşabilirsin." data-en="Browse the site from a command line. Start with help; use cd to move between pages.">Siteyi komut satırından gez. help yazarak başla; cd ile sayfalar arasında dolaşabilirsin.</p>
+  </section>
+  <!-- ── terminal ── -->
+  <section class="page-body wrap" id="terminal">
+    <div class="term-chips rv" role="group" aria-label="Hızlı komutlar">
+      <button class="term-chip" data-cmd="help">help</button>
+      <button class="term-chip" data-cmd="whoami">whoami</button>
+      <button class="term-chip" data-cmd="neofetch">neofetch</button>
+      <button class="term-chip" data-cmd="projects">projects</button>
+      <button class="term-chip" data-cmd="cd lab">cd lab</button>
+      <button class="term-chip" data-cmd="prime 1729">prime 1729</button>
+      <button class="term-chip" data-cmd="matrix">matrix</button>
+      <button class="term-chip hot" data-cmd="sudo hire-me">sudo hire-me</button>
+    </div>
+    <div class="term rv">
+      <div class="win-bar">
+        <i></i><i></i><i></i>
+        <span class="win-title">guest@bettercallhtm: ~</span>
+        <span class="win-badge">htmsh</span>
+      </div>
+      <div class="term-body" id="term-body">
+        <div id="term-out" aria-live="polite"></div>
+        <div class="term-line">
+          <label class="t-ps" for="term-in">guest@htm:~$</label>
+          <input id="term-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<!-- ── footer ── -->
+<footer class="footer wrap">
+  <div class="foot-top">
+    <div class="foot-clock">İstanbul <b id="clock">--:--:--</b> <span>GMT+3</span></div>
+  </div>
+  <div class="foot-bottom">
+    <span class="footer-sig">bettercallhtm</span>
+    <ul class="footer-links">
+      <li><a href="https://getdebi.com" target="_blank" rel="noopener">Debi</a></li>
+      <li><a href="/nightjar" target="_blank" rel="noopener">Nightjar</a></li>
+      <li><a href="https://pratiksatrancanaliz.getdebihook.com" target="_blank" rel="noopener" data-tr="Satranç" data-en="Chess">Satranç</a></li>
+      <li><a href="https://laftan.vercel.app" target="_blank" rel="noopener">Laftan</a></li>
+      <li><a href="https://liman-eosin.vercel.app" target="_blank" rel="noopener">Liman</a></li>
+      <li><a href="https://www.youtube.com/@bettercallhtm" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+  </div>
+  <div class="foot-meta">
+    <span>© 2026 Hasan Tahsin Meriç</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/assets/app.js" defer></script>
+</body>
+</html>

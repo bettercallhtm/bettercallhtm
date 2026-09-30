@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hasan Tahsin Meriç — bettercallhtm</title>
-<meta name="description" content="Hasan Tahsin Meriç (bettercallhtm) — İstanbul'dan tek kişilik kurucu. Debi, Laftan, Liman ve Pratik Satranç Analizi. Trading, kod ve satranç.">
+<meta name="description" content="Hasan Tahsin Meriç (bettercallhtm) — İstanbul'dan tek kişilik kurucu. Debi, Nightjar, Laftan, Liman ve Pratik Satranç Analizi. Trading, kod ve satranç.">
 <link rel="canonical" href="https://bettercallhtm.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="bettercallhtm">
@@ -35,10 +35,9 @@
   })();
 </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="preload" href="/assets/fonts/space-grotesk-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 
@@ -49,16 +48,16 @@
 <!-- ── header ── -->
 <header class="top">
   <nav class="nav wrap">
-    <a href="#top" class="brand" aria-label="bettercallhtm">
+    <a href="/" class="brand" aria-label="bettercallhtm" aria-current="page">
       <span class="brand-mark" aria-hidden="true">h</span>
       <span class="brand-name">bettercallhtm</span>
     </a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#projects"><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
-        <li><a href="#lab"><span>Lab</span></a></li>
-        <li><a href="#terminal"><span>Terminal</span></a></li>
-        <li><a href="#about"><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
+        <li><a href="/portfoy"><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
+        <li><a href="/lab"><span>Lab</span></a></li>
+        <li><a href="/terminal"><span>Terminal</span></a></li>
+        <li><a href="/hakkimda"><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
       </ul>
       <div class="lang-switch" role="group" aria-label="Dil / Language">
         <button class="lang-opt" data-lang="tr" aria-pressed="true">TR</button>
@@ -80,10 +79,6 @@
     <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <div class="status-pill">
-          <i class="pulse" aria-hidden="true"></i>
-          <span data-tr="Tek kişilik kurucu · İstanbul" data-en="Solo founder · Istanbul">Tek kişilik kurucu · İstanbul</span>
-        </div>
         <h1 class="hero-headline" id="headline"
             data-tr="Benim aklıma geldiyse, başkasının aklına da gelmiş olabilir."
             data-en="If it crossed my mind, it may have crossed someone else's too.">Benim aklıma geldiyse, başkasının aklına da gelmiş olabilir.</h1>
@@ -95,10 +90,10 @@
            data-tr="Çözülmeye değer bir problem gördüğümde hemen uygulamaya döküyorum. Restoran yönetiminden AI sohbete, satranç analizinden Kuran'a. Problem çözmeyi seviyorum."
            data-en="When I see a problem worth solving, I build it right away. From restaurant operations to AI chat, from chess analysis to the Qur'an. I love solving problems.">Çözülmeye değer bir problem gördüğümde hemen uygulamaya döküyorum. Restoran yönetiminden AI sohbete, satranç analizinden Kuran'a. Problem çözmeyi seviyorum.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#projects">
-            <span data-tr="Portföyü gör" data-en="View portfolio">Portföyü gör</span> <span aria-hidden="true">↓</span>
+          <a class="btn btn-primary" href="/portfoy">
+            <span data-tr="Portföyü gör" data-en="View portfolio">Portföyü gör</span> <span aria-hidden="true">→</span>
           </a>
-          <a class="btn btn-ghost" href="#terminal">
+          <a class="btn btn-ghost" href="/terminal">
             <span class="mono" aria-hidden="true">&gt;_</span> <span data-tr="Terminali aç" data-en="Open terminal">Terminali aç</span>
           </a>
         </div>
@@ -120,7 +115,7 @@
   <!-- ── stats ── -->
   <section class="stats wrap" id="stats">
     <div class="stat rv" style="--d:0ms">
-      <div class="stat-n"><span data-count="4">4</span></div>
+      <div class="stat-n"><span data-count="5">5</span></div>
       <div class="stat-l" data-tr="canlı ürün" data-en="live products">canlı ürün</div>
     </div>
     <div class="stat rv" style="--d:80ms">
@@ -133,297 +128,41 @@
     </div>
   </section>
 
-  <!-- ── portfolio ── -->
-  <section class="sec wrap" id="projects">
+  <!-- ── doors: one per page ── -->
+  <section class="sec wrap" id="explore">
     <header class="sec-head rv">
-      <h2 class="sec-title" data-tr="Portföy" data-en="Portfolio">Portföy</h2>
+      <h2 class="sec-title" data-tr="Keşfet" data-en="Explore">Keşfet</h2>
       <span class="sec-rule"></span>
     </header>
-
-    <div class="grid">
-
-      <article class="card rv" style="--c:#55C57A; --d:0ms">
-        <div class="card-top">
-          <span class="ticker">$DEBI</span>
-          <span class="live"><i></i>LIVE</span>
-        </div>
-        <canvas class="viz" data-viz="debi" aria-hidden="true"></canvas>
-        <div class="card-main">
-          <span class="chip" data-tr="SaaS · Restoran" data-en="SaaS · Restaurant">SaaS · Restoran</span>
-          <a class="card-name" href="https://getdebi.com/" target="_blank" rel="noopener">
-            <span>Debi</span> <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-          <p class="card-desc"
-             data-tr="Restoran ve marketler için yoğun saat yönetim yazılımı. Uber Eats, GetirYemek ve Yemeksepeti yükünü aynı anda izler; ceza riskini azaltmak için sipariş akışını dengeler, iş normale dönünce geri çekilir."
-             data-en="Rush-hour management software for restaurants and markets. It watches Uber Eats, GetirYemek and Yemeksepeti load at once; balances order flow to cut penalty risk, then eases off once things calm down.">Restoran ve marketler için yoğun saat yönetim yazılımı. Uber Eats, GetirYemek ve Yemeksepeti yükünü aynı anda izler; ceza riskini azaltmak için sipariş akışını dengeler, iş normale dönünce geri çekilir.</p>
-          <p class="card-tag" data-tr="&quot;Yoğun saatlerin cezası kârınızdan çıkmasın.&quot;" data-en="&quot;Don't let rush-hour penalties eat your profit.&quot;">"Yoğun saatlerin cezası kârınızdan çıkmasın."</p>
-        </div>
-        <div class="card-video is-soon">
-          <span class="video-poster">
-            <span class="video-label" data-tr="Tanıtım yakında" data-en="Promo coming soon">Tanıtım yakında</span>
-          </span>
-        </div>
-      </article>
-
-      <article class="card rv" style="--c:#17BEBB; --d:90ms">
-        <div class="card-top">
-          <span class="ticker">$CHESS</span>
-          <span class="live"><i></i>LIVE</span>
-        </div>
-        <canvas class="viz" data-viz="chess" aria-hidden="true"></canvas>
-        <div class="card-main">
-          <span class="chip" data-tr="Satranç · Araç" data-en="Chess · Tool">Satranç · Araç</span>
-          <a class="card-name" href="https://pratiksatrancanaliz.getdebihook.com/" target="_blank" rel="noopener">
-            <span data-tr="Pratik Satranç Analizi" data-en="Quick Chess Analysis">Pratik Satranç Analizi</span> <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-          <p class="card-desc"
-             data-tr="Lichess veya Chess.com kullanıcı adını gir; hamleler motora gönderilsin; analiz özeti gelsin. Derinlemesine inceleme değil — pratik, hızlı geri bildirim."
-             data-en="Enter your Lichess or Chess.com username; your moves go to the engine; you get an analysis summary. Not a deep dive — quick, practical feedback.">Lichess veya Chess.com kullanıcı adını gir; hamleler motora gönderilsin; analiz özeti gelsin. Derinlemesine inceleme değil — pratik, hızlı geri bildirim.</p>
-        </div>
-        <button class="card-video" data-video="3MTliR243Kk"
-                data-tr-label="Pratik Satranç Analizi tanıtım filmini izle" data-en-label="Watch the Quick Chess Analysis promo"
-                aria-label="Pratik Satranç Analizi tanıtım filmini izle">
-          <img class="video-thumb" src="assets/img/promo-chess.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
-          <span class="video-poster">
-            <span class="play" aria-hidden="true">&#9654;</span>
-            <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
-          </span>
-        </button>
-      </article>
-
-      <article class="card rv" style="--c:#F45D9A; --d:0ms">
-        <div class="card-top">
-          <span class="ticker">$LAFTAN</span>
-          <span class="live"><i></i>LIVE</span>
-        </div>
-        <canvas class="viz" data-viz="laftan" aria-hidden="true"></canvas>
-        <div class="card-main">
-          <span class="chip" data-tr="AI · Sohbet" data-en="AI · Chat">AI · Sohbet</span>
-          <a class="card-name" href="https://laftan.vercel.app/" target="_blank" rel="noopener">
-            <span>Laftan</span> <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-          <p class="card-desc"
-             data-tr="Farklı karakterlerle metin üzerinden sohbet eden bir AI uygulaması. Elif, Kaan ve diğerleri — her biri kendi sesi, kendi duruşu olan karakterler."
-             data-en="An AI app for chatting by text with distinct characters. Elif, Kaan and others — each with their own voice and attitude.">Farklı karakterlerle metin üzerinden sohbet eden bir AI uygulaması. Elif, Kaan ve diğerleri — her biri kendi sesi, kendi duruşu olan karakterler.</p>
-          <p class="card-tag" data-tr="&quot;Lafın insan olmuş hali.&quot;" data-en="&quot;Words, in human form.&quot;">"Lafın insan olmuş hali."</p>
-        </div>
-        <button class="card-video" data-video="nBwOXwsU0do"
-                data-tr-label="Laftan tanıtım filmini izle" data-en-label="Watch the Laftan promo"
-                aria-label="Laftan tanıtım filmini izle">
-          <img class="video-thumb" src="assets/img/promo-laftan.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
-          <span class="video-poster">
-            <span class="play" aria-hidden="true">&#9654;</span>
-            <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
-          </span>
-        </button>
-      </article>
-
-      <article class="card rv" style="--c:#E8A93A; --d:90ms">
-        <div class="card-top">
-          <span class="ticker">$LIMAN</span>
-          <span class="live"><i></i>LIVE</span>
-        </div>
-        <canvas class="viz" data-viz="liman" aria-hidden="true"></canvas>
-        <div class="card-main">
-          <span class="chip" data-tr="İslami · Uygulama" data-en="Faith · App">İslami · Uygulama</span>
-          <a class="card-name" href="https://liman-eosin.vercel.app/" target="_blank" rel="noopener">
-            <span>Liman</span> <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-          <p class="card-desc"
-             data-tr="Ruh hâlini veya yaşadığın bir anı yazıyorsun; Kur'an'dan o hâle dokunan bir ayet ve dua geliyor. Hiçbir şey sunucuya gönderilmiyor — eşleştirme cihazının içinde hesaplanıyor."
-             data-en="You write how you feel or something you're going through; a verse from the Qur'an that speaks to that state, plus a prayer, comes back. Nothing is sent to a server — the matching runs on your device.">Ruh hâlini veya yaşadığın bir anı yazıyorsun; Kur'an'dan o hâle dokunan bir ayet ve dua geliyor. Hiçbir şey sunucuya gönderilmiyor — eşleştirme cihazının içinde hesaplanıyor.</p>
-          <p class="card-tag" data-tr="&quot;Nasıl hissediyorsan, ona bir ayet.&quot;" data-en="&quot;However you feel, a verse for it.&quot;">"Nasıl hissediyorsan, ona bir ayet."</p>
-        </div>
-        <button class="card-video" data-video="bjtk8aWE45w"
-                data-tr-label="Liman tanıtım filmini izle" data-en-label="Watch the Liman promo"
-                aria-label="Liman tanıtım filmini izle">
-          <img class="video-thumb" src="assets/img/promo-liman.jpg" alt="" width="360" height="640" loading="lazy" decoding="async">
-          <span class="video-poster">
-            <span class="play" aria-hidden="true">&#9654;</span>
-            <span class="video-label" data-tr="Tanıtımı izle" data-en="Watch the promo">Tanıtımı izle</span>
-          </span>
-        </button>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ── stack ── -->
-  <section class="sec" id="stack">
-    <div class="wrap">
-      <header class="sec-head rv">
-        <h2 class="sec-title">Stack</h2>
-        <span class="sec-rule"></span>
-      </header>
-      <ul class="stack-list rv">
-        <li class="pill"><i style="--p:#3178C6"></i>TypeScript</li>
-        <li class="pill"><i style="--p:#F7DF1E"></i>JavaScript</li>
-        <li class="pill"><i style="--p:#61DAFB"></i>React</li>
-        <li class="pill"><i style="--p:#61DAFB"></i>React Native</li>
-        <li class="pill"><i style="--p:#A0A0FF"></i>Expo</li>
-        <li class="pill"><i style="--p:#5FA04E"></i>Node.js</li>
-        <li class="pill"><i style="--p:#FFD43B"></i>Python</li>
-        <li class="pill"><i style="--p:#A8B9CC"></i>C</li>
-        <li class="pill"><i style="--p:#E34F26"></i>HTML / CSS</li>
-        <li class="pill"><i class="mono-dot"></i>Vercel</li>
-        <li class="pill"><i style="--p:#32E6E2"></i>Netlify</li>
-        <li class="pill"><i style="--p:#729B1B"></i>Vitest</li>
-        <li class="pill"><i style="--p:#F05032"></i>Git</li>
-        <li class="pill"><i style="--p:#8F84FF"></i>GitHub</li>
-        <li class="pill"><i style="--p:#F45D9A"></i>LLM API</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ── lab ── -->
-  <section class="sec wrap" id="lab">
-    <header class="sec-head rv">
-      <h2 class="sec-title">Lab</h2>
-      <span class="sec-rule"></span>
-    </header>
-    <div class="lab-grid">
-
-      <!-- GBM Monte Carlo -->
-      <article class="lab-tile wide rv" id="lab-gbm">
-        <div class="lab-head">
-          <span class="lab-tag" data-tr="finans" data-en="finance">finans</span>
-        </div>
-        <h3 class="lab-title" data-tr="Monte Carlo · Geometrik Brown Hareketi" data-en="Monte Carlo · Geometric Brownian Motion">Monte Carlo · Geometrik Brown Hareketi</h3>
-        <p class="lab-desc"
-           data-tr="Bir hisseyi onlarca paralel evrende bir yıl yaşat. Drift (μ) ve volatiliteyle (σ) oyna, riskin şeklini gör."
-           data-en="Live one stock through dozens of parallel universes for a year. Play with drift (μ) and volatility (σ), and see the shape of risk.">Bir hisseyi onlarca paralel evrende bir yıl yaşat. Drift (μ) ve volatiliteyle (σ) oyna, riskin şeklini gör.</p>
-        <canvas class="lab-canvas lab-canvas-tall" id="gbm-canvas" role="img" aria-label="Monte Carlo simulation of geometric Brownian motion price paths"></canvas>
-        <div class="lab-controls">
-          <label class="ctl"><span>μ drift</span><input type="range" id="gbm-mu" min="-0.3" max="0.5" step="0.01" value="0.08"><output id="gbm-mu-o">8%</output></label>
-          <label class="ctl"><span>σ vol</span><input type="range" id="gbm-sigma" min="0.05" max="0.9" step="0.01" value="0.30"><output id="gbm-sigma-o">30%</output></label>
-          <button class="lab-btn" id="gbm-run">↻ <span data-tr="Yeniden simüle et" data-en="Re-simulate">Yeniden simüle et</span></button>
-        </div>
-        <div class="lab-foot">
-          <div class="lab-readout" id="gbm-stats">—</div>
-          <code class="lab-formula">dS = μS·dt + σS·dW</code>
-        </div>
-      </article>
-
-      <!-- knight's tour -->
-      <article class="lab-tile wide rv" id="lab-knight">
-        <div class="lab-head">
-          <span class="lab-tag" data-tr="satranç" data-en="chess">satranç</span>
-        </div>
-        <h3 class="lab-title" data-tr="At Turu · Warnsdorff" data-en="Knight's Tour · Warnsdorff">At Turu · Warnsdorff</h3>
-        <p class="lab-desc"
-           data-tr="At, 64 karenin her birine tam bir kez uğrayabilir mi? 1823'ten kalma bir sezgisel yöntem: her zaman en az çıkışı olan kareye git. Başlamak için bir kareye tıkla."
-           data-en="Can a knight visit all 64 squares exactly once? A heuristic from 1823: always jump to the square with the fewest onward moves. Click any square to start there.">At, 64 karenin her birine tam bir kez uğrayabilir mi? 1823'ten kalma bir sezgisel yöntem: her zaman en az çıkışı olan kareye git. Başlamak için bir kareye tıkla.</p>
-        <canvas class="lab-canvas" id="knight-canvas" role="img" aria-label="Knight's tour animation on a chessboard"></canvas>
-        <div class="lab-controls">
-          <button class="lab-btn" id="knight-run">♞ <span data-tr="Rastgele kare" data-en="Random square">Rastgele kare</span></button>
-        </div>
-        <div class="lab-foot">
-          <div class="lab-readout" id="knight-read">—</div>
-          <code class="lab-formula">next = argmin deg(v)</code>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ── terminal ── -->
-  <section class="sec wrap" id="terminal">
-    <header class="sec-head rv">
-      <h2 class="sec-title">Terminal</h2>
-      <span class="sec-rule"></span>
-    </header>
-    <div class="term-chips rv" role="group" aria-label="Hızlı komutlar">
-      <button class="term-chip" data-cmd="help">help</button>
-      <button class="term-chip" data-cmd="whoami">whoami</button>
-      <button class="term-chip" data-cmd="neofetch">neofetch</button>
-      <button class="term-chip" data-cmd="projects">projects</button>
-      <button class="term-chip" data-cmd="prime 1729">prime 1729</button>
-      <button class="term-chip" data-cmd="matrix">matrix</button>
-      <button class="term-chip hot" data-cmd="sudo hire-me">sudo hire-me</button>
-    </div>
-    <div class="term rv">
-      <div class="win-bar">
-        <i></i><i></i><i></i>
-        <span class="win-title">guest@bettercallhtm: ~</span>
-        <span class="win-badge">htmsh</span>
-      </div>
-      <div class="term-body" id="term-body">
-        <div id="term-out" aria-live="polite"></div>
-        <div class="term-line">
-          <label class="t-ps" for="term-in">guest@htm:~$</label>
-          <input id="term-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── about ── -->
-  <section class="sec wrap" id="about">
-    <header class="sec-head rv">
-      <h2 class="sec-title" data-tr="Hakkımda" data-en="About">Hakkımda</h2>
-      <span class="sec-rule"></span>
-    </header>
-
-    <div class="about-grid">
-      <div class="about-copy">
-        <p class="about-text rv"
-           data-tr="Ben Hasan Tahsin Meriç. İTÜ Elektronik ve Haberleşme Mühendisliği'nde son sınıf öğrencisiyim, ama işin okul kısmı hayatımın ufak bir parçası. Geri kalan zamanımda tek kişilik kurucu olarak uygulamalar geliştiriyorum. Sipariş akışını kısan bir SaaS'tan satranç analiz aracına, AI sohbet botu projelerinden İslami uygulamalara, kısacası gündelik hayatı kolaylaştıran her yerdeyim."
-           data-en="I'm Hasan Tahsin Meriç. I'm a senior in Electronics & Communication Engineering at Istanbul Technical University, but the school part is a small piece of my life. The rest of the time I build apps as a solo founder. From a SaaS that shortens order flow to a chess analysis tool, from AI chatbot projects to Islamic apps — in short, I'm everywhere everyday life can be made easier.">Ben Hasan Tahsin Meriç. İTÜ Elektronik ve Haberleşme Mühendisliği'nde son sınıf öğrencisiyim, ama işin okul kısmı hayatımın ufak bir parçası. Geri kalan zamanımda tek kişilik kurucu olarak uygulamalar geliştiriyorum. Sipariş akışını kısan bir SaaS'tan satranç analiz aracına, AI sohbet botu projelerinden İslami uygulamalara, kısacası gündelik hayatı kolaylaştıran her yerdeyim.</p>
-        <p class="about-text rv"
-           data-tr="Klişe ama beni ben yapan şey merak. Sayılar teorisi, finans, blockchain, satranç, bir de suç-polisiye dramaları. Hepsini birbirine bağlayan şey aynı: bir sistemin nasıl çalıştığını anlama isteği. Uzun vadede tutkum finans tarafında derinleşmek. Sayıların ve riskin kesiştiği yerde."
-           data-en="Cliché, but what defines me is curiosity. Number theory, finance, blockchain, chess, and crime-detective dramas. What ties them all together is the same thing: the urge to understand how a system works. My long-term passion is to go deeper on the finance side. Where numbers and risk intersect.">Klişe ama beni ben yapan şey merak. Sayılar teorisi, finans, blockchain, satranç, bir de suç-polisiye dramaları. Hepsini birbirine bağlayan şey aynı: bir sistemin nasıl çalıştığını anlama isteği. Uzun vadede tutkum finans tarafında derinleşmek. Sayıların ve riskin kesiştiği yerde.</p>
-
-        <ul class="interests rv">
-          <li><b>∑</b><span data-tr="Sayılar teorisi" data-en="Number theory">Sayılar teorisi</span></li>
-          <li><b>$</b><span data-tr="Finans" data-en="Finance">Finans</span></li>
-          <li><b>&lt;/&gt;</b><span data-tr="Kod" data-en="Code">Kod</span></li>
-          <li><b>♞</b><span data-tr="Satranç" data-en="Chess">Satranç</span></li>
-        </ul>
-
-        <div class="about-actions rv">
-          <a class="btn btn-primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=bettercallhtm@gmail.com" target="_blank" rel="noopener">
-            bettercallhtm@gmail.com <span aria-hidden="true">→</span>
-          </a>
-          <div class="socials">
-            <a class="social" href="https://www.instagram.com/hasahsinmeric/" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            </a>
-            <a class="social" href="https://x.com/bett3rcallhtm" target="_blank" rel="noopener" aria-label="X">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a class="social" href="https://www.linkedin.com/in/hasan-tahsin-meri%C3%A7-51554b277/" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-            </a>
-            <a class="social" href="https://github.com/bettercallhtm" target="_blank" rel="noopener" aria-label="GitHub">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-            </a>
-            <a class="social" href="https://www.youtube.com/@bettercallhtm" target="_blank" rel="noopener" aria-label="YouTube">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <aside class="charsheet rv" aria-label="character.json">
-        <div class="win-bar">
-          <i></i><i></i><i></i>
-          <span class="win-title">character.json</span>
-        </div>
-        <div class="cs-body">
-          <div class="cs-id">
-            <span class="cs-avatar" aria-hidden="true">h</span>
-            <div>
-              <div class="cs-name">Hasan Tahsin Meriç</div>
-              <div class="cs-class"><span data-tr="Sınıf" data-en="Class">Sınıf</span>: Solo Founder · İTÜ</div>
-            </div>
-          </div>
-          <div class="cs-row"><span data-tr="Merak" data-en="Curiosity">Merak</span><div class="bar"><i style="--v:99"></i></div><b>99</b></div>
-          <div class="cs-row"><span data-tr="Finans" data-en="Finance">Finans</span><div class="bar"><i style="--v:71"></i></div><b>71 <em>↑</em></b></div>
-          <div class="cs-row"><span data-tr="Satranç" data-en="Chess">Satranç</span><div class="bar"><i style="--v:64"></i></div><b>64</b></div>
-          <div class="cs-row low"><span data-tr="Uyku" data-en="Sleep">Uyku</span><div class="bar"><i style="--v:18"></i></div><b>18</b></div>
-          <p class="cs-note" data-tr="* tamamen bilimsel ölçümler" data-en="* totally scientific measurements">* tamamen bilimsel ölçümler</p>
-        </div>
-      </aside>
+    <div class="doors">
+      <a class="door rv" href="/portfoy" style="--c:#55C57A; --d:0ms">
+        <span class="door-top"><span class="door-path">~/portfoy</span><span class="door-meta" data-tr="5 ürün" data-en="5 products">5 ürün</span></span>
+        <span class="door-title" data-tr="Portföy" data-en="Portfolio">Portföy</span>
+        <span class="door-desc" data-tr="Yayındaki ürünler: Debi, Nightjar, Pratik Satranç Analizi, Laftan, Liman. Tanıtım filmleriyle."
+              data-en="Shipped products: Debi, Nightjar, Quick Chess Analysis, Laftan, Liman. With promo films.">Yayındaki ürünler: Debi, Nightjar, Pratik Satranç Analizi, Laftan, Liman. Tanıtım filmleriyle.</span>
+        <span class="door-go" aria-hidden="true">→</span>
+      </a>
+      <a class="door rv" href="/lab" style="--c:#9A8FFF; --d:80ms">
+        <span class="door-top"><span class="door-path">~/lab</span><span class="door-meta" data-tr="5 deney" data-en="5 experiments">5 deney</span></span>
+        <span class="door-title">Lab</span>
+        <span class="door-desc" data-tr="Finans, sayılar teorisi ve satrançtan etkileşimli küçük deneyler. Monte Carlo, Black–Scholes, asal spirali, at turu, vezir problemi."
+              data-en="Small interactive experiments from finance, number theory and chess. Monte Carlo, Black–Scholes, prime spiral, knight's tour, n-queens.">Finans, sayılar teorisi ve satrançtan etkileşimli küçük deneyler. Monte Carlo, Black–Scholes, asal spirali, at turu, vezir problemi.</span>
+        <span class="door-go" aria-hidden="true">→</span>
+      </a>
+      <a class="door rv" href="/terminal" style="--c:#3DFFA2; --d:0ms">
+        <span class="door-top"><span class="door-path">~/terminal</span><span class="door-meta">htmsh 1.0</span></span>
+        <span class="door-title">Terminal</span>
+        <span class="door-desc" data-tr="Siteyi komut satırından gez. help ile başla; birkaç sürpriz komut da var."
+              data-en="Browse the site from a command line. Start with help; there are a few hidden commands too.">Siteyi komut satırından gez. help ile başla; birkaç sürpriz komut da var.</span>
+        <span class="door-go" aria-hidden="true">→</span>
+      </a>
+      <a class="door rv" href="/hakkimda" style="--c:#F45D9A; --d:80ms">
+        <span class="door-top"><span class="door-path">~/hakkimda</span><span class="door-meta">İTÜ · EHB</span></span>
+        <span class="door-title" data-tr="Hakkımda" data-en="About">Hakkımda</span>
+        <span class="door-desc" data-tr="Kimim, neyle uğraşıyorum, hangi araçlarla çalışıyorum ve bana nasıl ulaşırsın."
+              data-en="Who I am, what I'm into, the tools I use and how to reach me.">Kimim, neyle uğraşıyorum, hangi araçlarla çalışıyorum ve bana nasıl ulaşırsın.</span>
+        <span class="door-go" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
@@ -438,6 +177,7 @@
     <span class="footer-sig">bettercallhtm</span>
     <ul class="footer-links">
       <li><a href="https://getdebi.com" target="_blank" rel="noopener">Debi</a></li>
+      <li><a href="/nightjar" target="_blank" rel="noopener">Nightjar</a></li>
       <li><a href="https://pratiksatrancanaliz.getdebihook.com" target="_blank" rel="noopener" data-tr="Satranç" data-en="Chess">Satranç</a></li>
       <li><a href="https://laftan.vercel.app" target="_blank" rel="noopener">Laftan</a></li>
       <li><a href="https://liman-eosin.vercel.app" target="_blank" rel="noopener">Liman</a></li>
@@ -449,22 +189,8 @@
   </div>
 </footer>
 
-<!-- ── video lightbox ── -->
-<div class="lightbox" id="lightbox" hidden>
-  <div class="lb-backdrop" data-close></div>
-  <div class="lb-content">
-    <button class="lb-close" data-close aria-label="Kapat">&times;</button>
-    <div class="lb-frame">
-      <iframe id="lb-iframe" title="Tanıtım filmi"
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
-    </div>
-    <a class="lb-yt" id="lb-yt" href="#" target="_blank" rel="noopener"
-       data-tr="YouTube'da aç ↗" data-en="Open on YouTube ↗">YouTube'da aç ↗</a>
-  </div>
-</div>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/app.js" defer></script>
+<script src="/assets/app.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab — bettercallhtm</title>
+<meta name="description" content="Finans, sayılar teorisi ve satrançtan etkileşimli deneyler: Monte Carlo, Black–Scholes, Ulam spirali, at turu, n-vezir.">
+<link rel="canonical" href="https://bettercallhtm.com/lab">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bettercallhtm">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:url" content="https://bettercallhtm.com/lab">
+<meta property="og:title" content="Lab — bettercallhtm">
+<meta property="og:description" content="Solo founder. Ship > talk. Trading, kod ve satranç.">
+<meta property="og:image" content="https://bettercallhtm.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="bettercallhtm — Hasan Tahsin Meriç. Debi, Satranç, Laftan, Liman.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@bett3rcallhtm">
+<meta name="twitter:image" content="https://bettercallhtm.com/assets/img/og.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236A5CF0'/%3E%3Cstop offset='1' stop-color='%23F45D9A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M35 24 V76'/%3E%3Cpath d='M35 52 C35 40 44 36 52 36 C61 36 67 43 67 54 V76'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#F6F4EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F14" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preload" href="/assets/fonts/space-grotesk-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-tr="İçeriğe geç" data-en="Skip to content">İçeriğe geç</a>
+
+<div class="bg-fx" aria-hidden="true"></div>
+
+<!-- ── header ── -->
+<header class="top">
+  <nav class="nav wrap">
+    <a href="/" class="brand" aria-label="bettercallhtm">
+      <span class="brand-mark" aria-hidden="true">h</span>
+      <span class="brand-name">bettercallhtm</span>
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/portfoy"><span data-tr="Portföy" data-en="Portfolio">Portföy</span></a></li>
+        <li><a href="/lab" aria-current="page"><span>Lab</span></a></li>
+        <li><a href="/terminal"><span>Terminal</span></a></li>
+        <li><a href="/hakkimda"><span data-tr="Hakkımda" data-en="About">Hakkımda</span></a></li>
+      </ul>
+      <div class="lang-switch" role="group" aria-label="Dil / Language">
+        <button class="lang-opt" data-lang="tr" aria-pressed="true">TR</button>
+        <button class="lang-opt" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="switch" id="theme-switch" role="switch" aria-checked="true"
+              data-tr-label="Koyu tema" data-en-label="Dark theme" aria-label="Koyu tema">
+        <span class="switch-knob"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+  <!-- ── page head ── -->
+  <section class="page-head wrap">
+    <p class="crumb"><a href="/">~</a>/lab</p>
+    <h1 class="page-title">Lab</h1>
+    <p class="page-lead" data-tr="Finans, sayılar teorisi ve satrançtan küçük, etkileşimli deneyler. Hepsi tarayıcında, sıfır bağımlılıkla çalışır." data-en="Small interactive experiments from finance, number theory and chess. All of them run in your browser with zero dependencies.">Finans, sayılar teorisi ve satrançtan küçük, etkileşimli deneyler. Hepsi tarayıcında, sıfır bağımlılıkla çalışır.</p>
+  </section>
+  <!-- ── lab ── -->
+  <section class="page-body wrap" id="lab">
+    <div class="lab-grid">
+
+      <!-- GBM Monte Carlo -->
+      <article class="lab-tile wide rv" id="lab-gbm">
+        <div class="lab-head">
+          <span class="lab-tag" data-tr="finans" data-en="finance">finans</span>
+        </div>
+        <h3 class="lab-title" data-tr="Monte Carlo · Geometrik Brown Hareketi" data-en="Monte Carlo · Geometric Brownian Motion">Monte Carlo · Geometrik Brown Hareketi</h3>
+        <p class="lab-desc"
+           data-tr="Bir hisseyi onlarca paralel evrende bir yıl yaşat. Drift (μ) ve volatiliteyle (σ) oyna, riskin şeklini gör."
+           data-en="Live one stock through dozens of parallel universes for a year. Play with drift (μ) and volatility (σ), and see the shape of risk.">Bir hisseyi onlarca paralel evrende bir yıl yaşat. Drift (μ) ve volatiliteyle (σ) oyna, riskin şeklini gör.</p>
+        <canvas class="lab-canvas lab-canvas-tall" id="gbm-canvas" role="img" aria-label="Monte Carlo simulation of geometric Brownian motion price paths"></canvas>
+        <div class="lab-controls">
+          <label class="ctl"><span>μ drift</span><input type="range" id="gbm-mu" min="-0.3" max="0.5" step="0.01" value="0.08"><output id="gbm-mu-o">8%</output></label>
+          <label class="ctl"><span>σ vol</span><input type="range" id="gbm-sigma" min="0.05" max="0.9" step="0.01" value="0.30"><output id="gbm-sigma-o">30%</output></label>
+          <button class="lab-btn" id="gbm-run">↻ <span data-tr="Yeniden simüle et" data-en="Re-simulate">Yeniden simüle et</span></button>
+        </div>
+        <div class="lab-foot">
+          <div class="lab-readout" id="gbm-stats">—</div>
+          <code class="lab-formula">dS = μS·dt + σS·dW</code>
+        </div>
+      </article>
+
+      <!-- Black–Scholes -->
+      <article class="lab-tile rv" id="lab-bs">
+        <div class="lab-head">
+          <span class="lab-tag" data-tr="finans" data-en="finance">finans</span>
+          <span class="lab-hint" data-tr="grafiğin üstünde gez" data-en="hover the chart">grafiğin üstünde gez</span>
+        </div>
+        <h3 class="lab-title" data-tr="Black–Scholes · Opsiyon Fiyatı" data-en="Black–Scholes · Option Price">Black–Scholes · Opsiyon Fiyatı</h3>
+        <p class="lab-desc"
+           data-tr="Kullanım fiyatı 100 olan bir alım opsiyonu. Vade kısaldıkça eğri, vade sonu getirisinin kırık çizgisine yapışır; volatilite arttıkça opsiyon pahalanır."
+           data-en="A call option struck at 100. As expiry nears, the curve hugs the hockey-stick payoff; as volatility rises, the option gets pricier.">Kullanım fiyatı 100 olan bir alım opsiyonu. Vade kısaldıkça eğri, vade sonu getirisinin kırık çizgisine yapışır; volatilite arttıkça opsiyon pahalanır.</p>
+        <canvas class="lab-canvas" id="bs-canvas" role="img" aria-label="Black–Scholes call option value against the underlying price"></canvas>
+        <div class="lab-controls">
+          <label class="ctl"><span>σ vol</span><input type="range" id="bs-sigma" min="0.05" max="1" step="0.01" value="0.30"><output id="bs-sigma-o">30%</output></label>
+          <label class="ctl"><span data-tr="T gün" data-en="T days">T gün</span><input type="range" id="bs-t" min="1" max="365" step="1" value="90"><output id="bs-t-o">90</output></label>
+        </div>
+        <div class="lab-foot">
+          <div class="lab-readout" id="bs-read">—</div>
+          <code class="lab-formula">C = S·N(d₁) − K·e<sup>−rT</sup>·N(d₂)</code>
+        </div>
+      </article>
+
+      <!-- Ulam spiral -->
+      <article class="lab-tile rv" id="lab-ulam">
+        <div class="lab-head">
+          <span class="lab-tag" data-tr="sayılar teorisi" data-en="number theory">sayılar teorisi</span>
+          <span class="lab-hint" data-tr="bir sayının üstüne gel" data-en="hover a number">bir sayının üstüne gel</span>
+        </div>
+        <h3 class="lab-title" data-tr="Ulam Spirali · Asalların Deseni" data-en="Ulam Spiral · The Shape of Primes">Ulam Spirali · Asalların Deseni</h3>
+        <p class="lab-desc"
+           data-tr="1'den başlayıp sayıları spiral şeklinde diz, asalları yak. 1963'te sıkıcı bir toplantıda karalanan bu şekilde asallar şaşırtıcı biçimde çaprazlara diziliyor."
+           data-en="Lay the integers out in a spiral from 1 and light up the primes. Doodled in a boring meeting in 1963, the picture shows primes crowding onto diagonals.">1'den başlayıp sayıları spiral şeklinde diz, asalları yak. 1963'te sıkıcı bir toplantıda karalanan bu şekilde asallar şaşırtıcı biçimde çaprazlara diziliyor.</p>
+        <canvas class="lab-canvas" id="ulam-canvas" role="img" aria-label="Ulam spiral with prime numbers highlighted"></canvas>
+        <div class="lab-controls">
+          <label class="ctl"><span data-tr="kenar" data-en="side">kenar</span><input type="range" id="ulam-n" min="21" max="301" step="10" value="151"><output id="ulam-n-o">151</output></label>
+          <label class="ctl ctl-check"><input type="checkbox" id="ulam-twin"><span data-tr="ikiz asallar" data-en="twin primes">ikiz asallar</span></label>
+        </div>
+        <div class="lab-foot">
+          <div class="lab-readout" id="ulam-read">—</div>
+          <code class="lab-formula">π(n) ~ n / ln n</code>
+        </div>
+      </article>
+
+      <!-- knight's tour -->
+      <article class="lab-tile rv" id="lab-knight">
+        <div class="lab-head">
+          <span class="lab-tag" data-tr="satranç" data-en="chess">satranç</span>
+        </div>
+        <h3 class="lab-title" data-tr="At Turu · Warnsdorff" data-en="Knight's Tour · Warnsdorff">At Turu · Warnsdorff</h3>
+        <p class="lab-desc"
+           data-tr="At, 64 karenin her birine tam bir kez uğrayabilir mi? 1823'ten kalma bir sezgisel yöntem: her zaman en az çıkışı olan kareye git. Başlamak için bir kareye tıkla."
+           data-en="Can a knight visit all 64 squares exactly once? A heuristic from 1823: always jump to the square with the fewest onward moves. Click any square to start there.">At, 64 karenin her birine tam bir kez uğrayabilir mi? 1823'ten kalma bir sezgisel yöntem: her zaman en az çıkışı olan kareye git. Başlamak için bir kareye tıkla.</p>
+        <canvas class="lab-canvas" id="knight-canvas" role="img" aria-label="Knight's tour animation on a chessboard"></canvas>
+        <div class="lab-controls">
+          <button class="lab-btn" id="knight-run">♞ <span data-tr="Rastgele kare" data-en="Random square">Rastgele kare</span></button>
+        </div>
+        <div class="lab-foot">
+          <div class="lab-readout" id="knight-read">—</div>
+          <code class="lab-formula">next = argmin deg(v)</code>
+        </div>
+      </article>
+
+      <!-- n-queens -->
+      <article class="lab-tile rv" id="lab-queens">
+        <div class="lab-head">
+          <span class="lab-tag" data-tr="satranç" data-en="chess">satranç</span>
+        </div>
+        <h3 class="lab-title" data-tr="N Vezir · Geri İzleme" data-en="N-Queens · Backtracking">N Vezir · Geri İzleme</h3>
+        <p class="lab-desc"
+           data-tr="N×N tahtaya birbirini tehdit etmeyen N vezir yerleştir. Algoritma satır satır dener, çıkmaza girince geri döner. Kırmızı kareler tehdit altında."
+           data-en="Place N queens on an N×N board so that none attack each other. The algorithm tries row by row and backs up at dead ends. Red squares are under attack.">N×N tahtaya birbirini tehdit etmeyen N vezir yerleştir. Algoritma satır satır dener, çıkmaza girince geri döner. Kırmızı kareler tehdit altında.</p>
+        <canvas class="lab-canvas" id="queens-canvas" role="img" aria-label="N-queens backtracking animation"></canvas>
+        <div class="lab-controls">
+          <label class="ctl"><span>N</span><input type="range" id="queens-n" min="4" max="12" step="1" value="8"><output id="queens-n-o">8</output></label>
+          <label class="ctl"><span data-tr="hız" data-en="speed">hız</span><input type="range" id="queens-speed" min="1" max="5" step="1" value="3"></label>
+          <button class="lab-btn" id="queens-next">♛ <span data-tr="Sonraki çözüm" data-en="Next solution">Sonraki çözüm</span></button>
+        </div>
+        <div class="lab-foot">
+          <div class="lab-readout" id="queens-read">—</div>
+          <code class="lab-formula">safe(r, c) ⇒ place ∨ backtrack</code>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+</main>
+
+<!-- ── footer ── -->
+<footer class="footer wrap">
+  <div class="foot-top">
+    <div class="foot-clock">İstanbul <b id="clock">--:--:--</b> <span>GMT+3</span></div>
+  </div>
+  <div class="foot-bottom">
+    <span class="footer-sig">bettercallhtm</span>
+    <ul class="footer-links">
+      <li><a href="https://getdebi.com" target="_blank" rel="noopener">Debi</a></li>
+      <li><a href="/nightjar" target="_blank" rel="noopener">Nightjar</a></li>
+      <li><a href="https://pratiksatrancanaliz.getdebihook.com" target="_blank" rel="noopener" data-tr="Satranç" data-en="Chess">Satranç</a></li>
+      <li><a href="https://laftan.vercel.app" target="_blank" rel="noopener">Laftan</a></li>
+      <li><a href="https://liman-eosin.vercel.app" target="_blank" rel="noopener">Liman</a></li>
+      <li><a href="https://www.youtube.com/@bettercallhtm" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+  </div>
+  <div class="foot-meta">
+    <span>© 2026 Hasan Tahsin Meriç</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/assets/app.js" defer></script>
+</body>
+</html>

@@ -120,6 +120,7 @@
   };
   let LANG = 'tr';
   const t = k => (T[LANG][k] !== undefined ? T[LANG][k] : T.tr[k]);
+  const tl = (tr, en) => (LANG === 'en' ? en : tr);
 
   function setLang(lang) {
     LANG = lang === 'en' ? 'en' : 'tr';
@@ -172,15 +173,6 @@
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  const navLinks = $$('.nav-links a');
-  const secIO = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
-  ['projects', 'stack', 'lab', 'terminal', 'about'].forEach(id => { const s = document.getElementById(id); s && secIO.observe(s); });
-
   /* ── reveal on scroll ────────────────────────────────── */
   function countUp(el) {
     const target = Number(el.dataset.count);
@@ -227,13 +219,16 @@
     el._dec = requestAnimationFrame(step);
   }
   const headline = $('#headline');
-  const headText = () => (LANG === 'en' ? headline.dataset.en : headline.dataset.tr);
-  booted.then(() => decode(headline, headText()));
-  on('lang', () => decode(headline, headText(), 700));
+  if (headline) {
+    const headText = () => (LANG === 'en' ? headline.dataset.en : headline.dataset.tr);
+    booted.then(() => decode(headline, headText()));
+    on('lang', () => decode(headline, headText(), 700));
+  }
 
   /* ── hero: typed roles ───────────────────────────────── */
   (() => {
     const el = $('#typed');
+    if (!el) return;
     if (REDUCED) { el.textContent = t('roles')[0]; on('lang', () => { el.textContent = t('roles')[0]; }); return; }
     let idx = 0, pos = 0, deleting = false, timer = 0;
     const run = () => {
@@ -259,6 +254,7 @@
   /* ── hero: typed config file ─────────────────────────── */
   (() => {
     const el = $('#code');
+    if (!el) return;
     const L = (...toks) => toks;
     const s = x => ['s', `"${x}"`];
     const o = x => ['o', x];
@@ -272,7 +268,7 @@
       prop('role', s('solo founder')),
       prop('base', s('İstanbul, TR')),
       prop('edu', s('İTÜ · Electronics & Comm.')),
-      prop('shipped', o('['), ...arr('Debi', 'Laftan', 'Liman', 'Chess'), o(']')),
+      prop('shipped', o('['), ...arr('Debi', 'Nightjar', 'Laftan', 'Liman', 'Chess'), o(']')),
       prop('stack', o('['), ...arr('TS', 'React Native', 'Node', 'Python'), o(']')),
       prop('into', o('['), ...arr('finance', 'number theory', 'chess'), o(']')),
       L(o('  '), ['f', 'ship'], o(': () => '), ['v', 'idea'], o('.'), ['f', 'build'], o('().'), ['f', 'launch'], o('(),')),
@@ -311,6 +307,7 @@
   /* ── hero: live candlestick chart ────────────────────── */
   (() => {
     const canvas = $('#hero-canvas');
+    if (!canvas) return;
     const hero = $('.hero');
     const STEP = 13, BODY = 7, PAD_R = 92, SPEED = STEP / 1600;
     let candles = [], offset = 0, anchor = 142, yMin = 0, yMax = 0, mouse = null;
@@ -702,6 +699,93 @@
         }
       };
     },
+
+    /* Nightjar: a guard patrols with a vision cone; the player waits in a
+       bush, sneaks up while the guard looks away and takes him down */
+    nightjar(S, color) {
+      const stars = Array.from({ length: 14 }, () => [Math.random(), Math.random() * 0.4, Math.random() * 6]);
+      const G = { x: 0, dir: -1, pause: 0, down: 0 }, P = { x: 0, mode: 'hide', wait: 1 };
+      let t = 0, init = false, spotted = 0;
+      const reset = w => { G.x = w * 0.86; G.dir = -1; G.pause = 0.6; G.down = 0; P.x = w * 0.16; P.mode = 'hide'; P.wait = 0.8; };
+      return dt => {
+        const { ctx, w, h } = S;
+        if (!w) return;
+        if (!init) { reset(w); init = true; }
+        const s = Math.min(dt, 1200) / 1000;
+        t += s;
+        const ground = h - 11, bushX = w * 0.16, x1 = w * 0.4, x2 = w * 0.88;
+        // guard patrol
+        if (!G.down) {
+          if (G.pause > 0) { G.pause -= s; if (G.pause <= 0) G.dir *= -1; }
+          else {
+            G.x += G.dir * 16 * s;
+            if (G.x >= x2) { G.x = x2; G.pause = 1.1; }
+            if (G.x <= x1) { G.x = x1; G.pause = 1.1; }
+          }
+        } else if ((G.down += s) > 2.2) reset(w);
+        // player
+        const lookingAway = G.dir === 1 && G.pause <= 0;
+        const inCone = G.dir === -1 && P.x < G.x && G.x - P.x < 74 && P.mode !== 'hide';
+        if (P.mode === 'hide') { if ((P.wait -= s) <= 0 && lookingAway && G.x < w * 0.62 && !G.down) P.mode = 'sneak'; }
+        else if (P.mode === 'sneak') {
+          P.x += 34 * s;
+          if (inCone) { P.mode = 'back'; spotted = 0.9; }
+          else if (G.dir === 1 && P.x >= G.x - 11) { P.mode = 'strike'; G.down = 0.001; }
+        } else if (P.mode === 'back') { P.x -= 70 * s; if (P.x <= bushX) { P.x = bushX; P.mode = 'hide'; P.wait = 1.4; } }
+        spotted = Math.max(0, spotted - s);
+
+        ctx.clearRect(0, 0, w, h);
+        for (const [sx, sy, p] of stars) {
+          ctx.fillStyle = rgba(C.text, 0.12 + 0.3 * (0.5 + 0.5 * Math.sin(t * 1.5 + p)));
+          ctx.fillRect(sx * w, sy * h, 1.5, 1.5);
+        }
+        ctx.fillStyle = rgba(C.text, 0.16);
+        ctx.fillRect(0, ground, w, 1);
+        // crates
+        ctx.fillStyle = rgba(C.text, 0.1);
+        ctx.fillRect(w * 0.94, ground - 14, 14, 14);
+        ctx.fillRect(w * 0.3, ground - 10, 12, 10);
+        // vision cone
+        if (!G.down) {
+          const ex = G.x + G.dir * 3, ey = ground - 13, len = 74 * (G.pause > 0 ? 0.92 : 1);
+          ctx.beginPath();
+          ctx.moveTo(ex, ey);
+          ctx.lineTo(ex + G.dir * len, ey - 12);
+          ctx.lineTo(ex + G.dir * len, ey + 11);
+          ctx.closePath();
+          ctx.fillStyle = spotted > 0 ? rgba(color, 0.2 + 0.25 * spotted) : rgba(color, 0.13);
+          ctx.fill();
+        }
+        // guard (tips over when taken down)
+        ctx.save();
+        ctx.translate(G.x, ground);
+        if (G.down) ctx.rotate(-G.dir * Math.min(1, G.down * 3) * Math.PI / 2);
+        ctx.globalAlpha = G.down ? Math.max(0, 1 - G.down / 2.2) : 1;
+        ctx.fillStyle = rgba(C.text, 0.72);
+        ctx.fillRect(-3.5, -16, 7, 16);
+        ctx.beginPath(); ctx.arc(0, -19, 3.4, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+        if (spotted > 0 && !G.down) {
+          ctx.fillStyle = color;
+          ctx.font = `700 ${11}px "JetBrains Mono", monospace`;
+          ctx.textAlign = 'center';
+          ctx.fillText('!', G.x, ground - 27);
+        }
+        // player
+        const hidden = P.mode === 'hide';
+        ctx.save();
+        ctx.globalAlpha = hidden ? 0.45 : 1;
+        ctx.shadowColor = color; ctx.shadowBlur = hidden ? 0 : 8;
+        ctx.fillStyle = color;
+        const crouch = P.mode === 'sneak' ? 3 : 0;
+        ctx.fillRect(P.x - 3, ground - 13 + crouch, 6, 13 - crouch);
+        ctx.beginPath(); ctx.arc(P.x, ground - 16 + crouch, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+        // bush in front of the player
+        ctx.fillStyle = rgba(C.up, 0.28);
+        for (const [dx, r] of [[-9, 7], [0, 9], [9, 7]]) { ctx.beginPath(); ctx.arc(bushX + dx, ground, r, Math.PI, 0); ctx.fill(); }
+      };
+    },
   };
 
   $$('.card').forEach(card => {
@@ -1006,6 +1090,329 @@
     onFirstView(cv, () => { started = true; randomStart(); });
   })();
 
+  /* ── lab: Black–Scholes call ──────────────────────── */
+  (() => {
+    const cv = $('#bs-canvas');
+    if (!cv) return;
+    const sgIn = $('#bs-sigma'), tIn = $('#bs-t'), sgO = $('#bs-sigma-o'), tO = $('#bs-t-o'), read = $('#bs-read');
+    const K = 100, R = 0.03, SMIN = 50, SMAX = 150;
+    let hover = null, ready = false;
+    const S = setupCanvas(cv, () => ready && draw());
+    // Abramowitz–Stegun 7.1.26, |error| < 1.5e-7
+    const erf = x => {
+      const sg = Math.sign(x), a = Math.abs(x), k = 1 / (1 + 0.3275911 * a);
+      return sg * (1 - ((((1.061405429 * k - 1.453152027) * k + 1.421413741) * k - 0.284496736) * k + 0.254829592) * k * Math.exp(-a * a));
+    };
+    const N = x => 0.5 * (1 + erf(x / Math.SQRT2));
+    const pdf = x => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+    function price(s, sg, T) {
+      const sq = sg * Math.sqrt(T), d1 = (Math.log(s / K) + (R + sg * sg / 2) * T) / sq, d2 = d1 - sq, disc = Math.exp(-R * T);
+      return {
+        c: s * N(d1) - K * disc * N(d2),
+        delta: N(d1),
+        gamma: pdf(d1) / (s * sq),
+        theta: (-s * pdf(d1) * sg / (2 * Math.sqrt(T)) - R * K * disc * N(d2)) / 365,
+        vega: s * pdf(d1) * Math.sqrt(T) / 100,
+      };
+    }
+    const params = () => [+sgIn.value, +tIn.value / 365];
+
+    function draw() {
+      const { ctx, w, h } = S;
+      if (!w) return;
+      const [sg, T] = params();
+      const L = 40, Rt = w - 14, Tp = 14, B = h - 26;
+      const yMax = Math.max(52, price(SMAX, sg, T).c) * 1.08;
+      const X = s => L + ((s - SMIN) / (SMAX - SMIN)) * (Rt - L);
+      const Y = v => B - (v / yMax) * (B - Tp);
+      ctx.clearRect(0, 0, w, h);
+      ctx.font = '10.5px "JetBrains Mono", monospace';
+      ctx.lineWidth = 1;
+      // grid
+      ctx.strokeStyle = rgba(C.text, 0.06);
+      ctx.fillStyle = C.textDim;
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      const yStep = yMax > 60 ? 20 : 10;
+      for (let v = 0; v <= yMax; v += yStep) {
+        const y = Math.round(Y(v)) + 0.5;
+        ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(Rt, y); ctx.stroke();
+        ctx.fillText(String(v), L - 8, y);
+      }
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      for (let s = SMIN; s <= SMAX; s += 25) ctx.fillText(String(s), X(s), B + 8);
+      // strike
+      ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = rgba(C.text, 0.22);
+      ctx.beginPath(); ctx.moveTo(X(K), Tp); ctx.lineTo(X(K), B); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = C.textDim;
+      ctx.textAlign = 'left';
+      ctx.fillText('K', X(K) + 5, Tp);
+      // curve + payoff; the gap between them is time value
+      const pts = [];
+      for (let px = L; px <= Rt; px += 2) { const s = SMIN + ((px - L) / (Rt - L)) * (SMAX - SMIN); pts.push([px, Y(price(s, sg, T).c), Y(Math.max(0, s - K))]); }
+      ctx.beginPath();
+      pts.forEach(([x, yc], i) => (i ? ctx.lineTo(x, yc) : ctx.moveTo(x, yc)));
+      for (let i = pts.length - 1; i >= 0; i--) ctx.lineTo(pts[i][0], pts[i][2]);
+      ctx.closePath();
+      ctx.fillStyle = rgba(C.accent, 0.1);
+      ctx.fill();
+      ctx.strokeStyle = rgba(C.text, 0.4);
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(X(SMIN), Y(0)); ctx.lineTo(X(K), Y(0)); ctx.lineTo(X(SMAX), Y(SMAX - K)); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.strokeStyle = C.accent;
+      ctx.lineWidth = 2.4;
+      ctx.beginPath();
+      pts.forEach(([x, yc], i) => (i ? ctx.lineTo(x, yc) : ctx.moveTo(x, yc)));
+      ctx.stroke();
+      // legend
+      ctx.font = '10.5px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = C.accent; ctx.fillRect(L + 10, Tp + 6, 14, 2.4);
+      ctx.fillStyle = C.textDim; ctx.fillText(tl('opsiyon değeri', 'option value'), L + 30, Tp + 7);
+      ctx.fillStyle = rgba(C.text, 0.4); ctx.fillRect(L + 10, Tp + 22, 14, 1);
+      ctx.fillStyle = C.textDim; ctx.fillText(tl('vade sonu getirisi', 'payoff at expiry'), L + 30, Tp + 22);
+      // hovered spot price (defaults to at-the-money)
+      const s = hover == null ? K : hover;
+      const g = price(s, sg, T);
+      ctx.strokeStyle = rgba(C.text, hover == null ? 0 : 0.3);
+      ctx.beginPath(); ctx.moveTo(X(s), Tp); ctx.lineTo(X(s), B); ctx.stroke();
+      ctx.fillStyle = C.accent2;
+      ctx.beginPath(); ctx.arc(X(s), Y(g.c), 4, 0, Math.PI * 2); ctx.fill();
+      read.innerHTML =
+        `<span>S <b>${s.toFixed(1)}</b></span>` +
+        `<span>C <b>${g.c.toFixed(2)}</b></span>` +
+        `<span>Δ <b>${g.delta.toFixed(3)}</b></span>` +
+        `<span>Γ <b>${g.gamma.toFixed(4)}</b></span>` +
+        `<span>Θ/${tl('gün', 'day')} <b class="bad">${g.theta.toFixed(3)}</b></span>` +
+        `<span>ν <b>${g.vega.toFixed(3)}</b></span>`;
+    }
+    const sync = () => {
+      sgO.textContent = Math.round(+sgIn.value * 100) + '%';
+      tO.textContent = tIn.value;
+      draw();
+    };
+    [sgIn, tIn].forEach(inp => inp.addEventListener('input', sync));
+    cv.addEventListener('pointermove', e => {
+      const L = 40, Rt = S.w - 14;
+      hover = clamp(SMIN + ((e.offsetX - L) / (Rt - L)) * (SMAX - SMIN), SMIN, SMAX);
+      draw();
+    });
+    cv.addEventListener('pointerleave', () => { hover = null; draw(); });
+    on('theme', () => ready && draw());
+    on('lang', () => ready && draw());
+    onFirstView(cv, () => { ready = true; sync(); });
+  })();
+
+  /* ── lab: Ulam spiral ─────────────────────────────── */
+  (() => {
+    const cv = $('#ulam-canvas');
+    if (!cv) return;
+    const nIn = $('#ulam-n'), nO = $('#ulam-n-o'), twinIn = $('#ulam-twin'), read = $('#ulam-read');
+    const MAX = 301 * 301 + 2;
+    const comp = new Uint8Array(MAX + 1);
+    comp[0] = comp[1] = 1;
+    for (let i = 2; i * i <= MAX; i++) if (!comp[i]) for (let j = i * i; j <= MAX; j += i) comp[j] = 1;
+    const isP = k => !comp[k];
+    const isTwin = k => isP(k) && (isP(k + 2) || (k > 2 && isP(k - 2)));
+
+    let n = 0, xs = null, ys = null, grid = null, shown = 0, raf = 0, hoverK = 0, ready = false;
+    const S = setupCanvas(cv, () => ready && draw());
+
+    function build() {
+      n = +nIn.value;
+      const total = n * n, half = (n - 1) / 2;
+      xs = new Int16Array(total + 1); ys = new Int16Array(total + 1); grid = new Int32Array(total);
+      let x = 0, y = 0, k = 1, len = 1, d = 0;
+      const DX = [1, 0, -1, 0], DY = [0, -1, 0, 1];
+      const put = () => { xs[k] = x + half; ys[k] = y + half; grid[(y + half) * n + (x + half)] = k; };
+      put();
+      while (k < total) {
+        for (let rep = 0; rep < 2 && k < total; rep++) {
+          for (let i = 0; i < len && k < total; i++) { x += DX[d]; y += DY[d]; k++; put(); }
+          d = (d + 1) % 4;
+        }
+        len++;
+      }
+      nO.textContent = n;
+    }
+    function geom() {
+      const side = Math.min(S.w, S.h) - 12, cell = side / n;
+      return { cell, ox: (S.w - side) / 2, oy: (S.h - side) / 2 };
+    }
+    function draw() {
+      const { ctx, w } = S;
+      if (!w || !n) return;
+      const { cell, ox, oy } = geom(), twin = twinIn.checked, sz = Math.max(1, cell * 0.86);
+      ctx.clearRect(0, 0, S.w, S.h);
+      const cA = twin ? rgba(C.text, 0.22) : C.accent;
+      for (let k = 2; k <= shown; k++) {
+        if (!isP(k)) continue;
+        ctx.fillStyle = twin && isTwin(k) ? C.accent2 : cA;
+        ctx.fillRect(ox + xs[k] * cell, oy + ys[k] * cell, sz, sz);
+      }
+      // centre (1) marker
+      ctx.strokeStyle = rgba(C.text, 0.5);
+      ctx.strokeRect(ox + xs[1] * cell - 1.5, oy + ys[1] * cell - 1.5, cell + 3, cell + 3);
+      if (hoverK) {
+        const hx = ox + xs[hoverK] * cell, hy = oy + ys[hoverK] * cell, r = Math.max(4, cell * 1.4);
+        ctx.strokeStyle = C.accent2;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(hx + cell / 2 - r, hy + cell / 2 - r, r * 2, r * 2);
+        ctx.lineWidth = 1;
+      }
+      updateRead();
+    }
+    function updateRead() {
+      const N = n * n;
+      if (hoverK) {
+        const f = factor(hoverK);
+        const p = hoverK > 1 && f.length === 1 && f[0][1] === 1;
+        read.innerHTML = `<span>n <b>${hoverK}</b></span>` + (hoverK === 1 ? `<span>${tl('merkez', 'centre')}</span>`
+          : p ? `<span class="ok">${tl('asal ✓', 'prime ✓')}${isTwin(hoverK) ? ' · ' + tl('ikiz', 'twin') : ''}</span>` : `<span>= <b>${fmtFactors(f)}</b></span>`);
+        return;
+      }
+      let pi = 0;
+      for (let k = 2; k <= N; k++) if (isP(k)) pi++;
+      read.innerHTML = `<span>N <b>${N.toLocaleString(LANG === 'en' ? 'en' : 'tr')}</b></span>` +
+        `<span>π(N) <b>${pi.toLocaleString(LANG === 'en' ? 'en' : 'tr')}</b></span>` +
+        `<span>N / ln N <b>${Math.round(N / Math.log(N)).toLocaleString(LANG === 'en' ? 'en' : 'tr')}</b></span>`;
+    }
+    function reveal() {
+      cancelAnimationFrame(raf);
+      build();
+      const total = n * n;
+      if (REDUCED) { shown = total; draw(); return; }
+      shown = 1;
+      const t0 = performance.now(), dur = 1400;
+      const step = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        shown = Math.max(1, Math.floor(total * p * p));
+        draw();
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }
+    let deb = 0;
+    nIn.addEventListener('input', () => { nO.textContent = nIn.value; clearTimeout(deb); deb = setTimeout(reveal, 120); });
+    twinIn.addEventListener('change', () => ready && draw());
+    cv.addEventListener('pointermove', e => {
+      if (!n) return;
+      const { cell, ox, oy } = geom();
+      const x = Math.floor((e.offsetX - ox) / cell), y = Math.floor((e.offsetY - oy) / cell);
+      const k = x >= 0 && y >= 0 && x < n && y < n ? grid[y * n + x] : 0;
+      if (k !== hoverK) { hoverK = k; draw(); }
+    });
+    cv.addEventListener('pointerleave', () => { hoverK = 0; if (ready) draw(); });
+    on('theme', () => ready && draw());
+    on('lang', () => ready && updateRead());
+    onFirstView(cv, () => { ready = true; reveal(); });
+  })();
+
+  /* ── lab: n-queens backtracking ───────────────────── */
+  (() => {
+    const cv = $('#queens-canvas');
+    if (!cv) return;
+    const nIn = $('#queens-n'), nO = $('#queens-n-o'), spIn = $('#queens-speed'), nextBtn = $('#queens-next'), read = $('#queens-read');
+    const TOTAL = { 4: 2, 5: 10, 6: 4, 7: 40, 8: 92, 9: 352, 10: 724, 11: 2680, 12: 14200 };
+    const RATE = [3, 8, 25, 90, 400];
+    let n = 8, cols = [], cur = null, gen = null, steps = 0, backs = 0, sols = 0, done = false, paused = false, raf = 0, ready = false;
+    const S = setupCanvas(cv, () => ready && draw());
+
+    const safe = (r, c) => cols.every((cc, rr) => cc !== c && Math.abs(cc - c) !== r - rr);
+    function* solve(r) {
+      if (r === n) { yield 'solution'; return; }
+      for (let c = 0; c < n; c++) {
+        cur = [r, c];
+        yield 'try';
+        if (!safe(r, c)) continue;
+        cols.push(c);
+        yield 'place';
+        yield* solve(r + 1);
+        cols.pop();
+        backs++;
+        cur = null;
+        yield 'back';
+      }
+    }
+    function geom() {
+      const side = Math.min(S.w, S.h) - 16, sq = side / n;
+      return { sq, ox: (S.w - side) / 2, oy: (S.h - side) / 2 };
+    }
+    function draw() {
+      const { ctx, w, h } = S;
+      if (!w) return;
+      const { sq, ox, oy } = geom();
+      ctx.clearRect(0, 0, w, h);
+      for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+        ctx.fillStyle = (x + y) % 2 ? C.sqA : C.sqB;
+        ctx.fillRect(ox + x * sq, oy + y * sq, sq, sq);
+        const hit = cols.some((c, r) => r !== y && (c === x || Math.abs(c - x) === Math.abs(r - y)));
+        if (hit && y >= cols.length) { ctx.fillStyle = rgba(C.down, 0.16); ctx.fillRect(ox + x * sq, oy + y * sq, sq, sq); }
+      }
+      if (cur && !paused) {
+        const [r, c] = cur, ok = r < cols.length ? cols[r] === c : safe(r, c);
+        ctx.strokeStyle = ok ? C.up : C.down;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(ox + c * sq + 2, oy + r * sq + 2, sq - 4, sq - 4);
+        ctx.lineWidth = 1;
+      }
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `${sq * 0.7}px "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", serif`;
+      ctx.fillStyle = paused ? C.accent : C.text;
+      cols.forEach((c, r) => ctx.fillText('♛', ox + c * sq + sq / 2, oy + r * sq + sq / 2 + sq * 0.03));
+      updateRead();
+    }
+    function updateRead() {
+      read.innerHTML = `<span>${tl('adım', 'steps')} <b>${steps.toLocaleString()}</b></span>` +
+        `<span>${tl('geri dönüş', 'backtracks')} <b>${backs.toLocaleString()}</b></span>` +
+        `<span>${tl('çözüm', 'solutions')} <b class="${sols ? 'ok' : ''}">${sols}</b> / ${TOTAL[n]}</span>` +
+        (done ? `<span class="ok">${tl('hepsi bulundu ✓', 'all found ✓')}</span>` : paused ? `<span class="ok">${tl('çözüm ✓', 'solved ✓')}</span>` : '');
+    }
+    // advance until the next solution (or the end); returns true on a solution
+    function advance(budget) {
+      for (let i = 0; i < budget; i++) {
+        const r = gen.next();
+        if (r.done) { done = true; cur = null; return false; }
+        steps++;
+        if (r.value === 'solution') { sols++; paused = true; return true; }
+      }
+      return false;
+    }
+    function run() {
+      cancelAnimationFrame(raf);
+      if (REDUCED) { advance(1e7); draw(); return; }
+      let acc = 0, last = performance.now();
+      const step = now => {
+        acc += ((now - last) / 1000) * RATE[+spIn.value - 1];
+        last = now;
+        const k = Math.floor(acc);
+        acc -= k;
+        if (k) advance(k);
+        draw();
+        if (!paused && !done) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }
+    function restart() {
+      n = +nIn.value;
+      nO.textContent = n;
+      cols = []; cur = null; steps = backs = sols = 0; done = paused = false;
+      gen = solve(0);
+      run();
+    }
+    nIn.addEventListener('input', () => { nO.textContent = nIn.value; restart(); });
+    nextBtn.addEventListener('click', () => {
+      if (done) return restart();
+      paused = false;
+      run();
+    });
+    on('theme', () => ready && draw());
+    on('lang', () => ready && updateRead());
+    onFirstView(cv, () => { ready = true; restart(); });
+  })();
+
   /* ── matrix rain ────────────────────────────────────── */
   function rain() {
     if (REDUCED) { toast(t('reduced')); return; }
@@ -1068,7 +1475,18 @@
   /* ── terminal ────────────────────────────────────────── */
   (() => {
     const out = $('#term-out'), input = $('#term-in'), body = $('#term-body');
-    if (!out) return;
+    if (!out) {
+      /* other pages: "/" jumps to the terminal page */
+      addEventListener('keydown', e => {
+        if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+        const el = document.activeElement;
+        if (el && (/INPUT|TEXTAREA|SELECT/.test(el.tagName) || el.isContentEditable)) return;
+        e.preventDefault();
+        location.href = '/terminal';
+      });
+      return;
+    }
+    if (FINE) setTimeout(() => input.focus({ preventScroll: true }), REDUCED ? 0 : 600);
     const loadedAt = Date.now();
     const hist = [];
     let hi = 0;
@@ -1086,6 +1504,7 @@
 
     const PROJ = [
       { k: 'debi', n: 'Debi', u: 'https://getdebi.com/', tr: 'restoranlar için yoğun saat yönetimi', en: 'rush-hour control for restaurants' },
+      { k: 'nightjar', n: 'Nightjar', u: '/nightjar', tr: '2D gizlilik oyunu, tarayıcıda oyna', en: '2D stealth game, play in browser' },
       { k: 'chess', n: 'Pratik Satranç Analizi', u: 'https://pratiksatrancanaliz.getdebihook.com/', tr: 'hızlı satranç analizi', en: 'quick chess analysis' },
       { k: 'laftan', n: 'Laftan', u: 'https://laftan.vercel.app/', tr: 'karakterlerle AI sohbet', en: 'AI chat with characters' },
       { k: 'liman', n: 'Liman', u: 'https://liman-eosin.vercel.app/', tr: 'hâline uygun ayet, cihaz içinde', en: 'a verse for your mood, on-device' },
@@ -1098,10 +1517,12 @@
       youtube: 'https://www.youtube.com/@bettercallhtm',
     };
     const OPEN = {
-      debi: PROJ[0].u, chess: PROJ[1].u, satranc: PROJ[1].u, laftan: PROJ[2].u, liman: PROJ[3].u,
+      debi: PROJ[0].u, nightjar: PROJ[1].u, chess: PROJ[2].u, satranc: PROJ[2].u, laftan: PROJ[3].u, liman: PROJ[4].u,
       github: SOC.github, gh: SOC.github, x: SOC.x, twitter: SOC.x, instagram: SOC.instagram, ig: SOC.instagram,
       linkedin: SOC.linkedin, youtube: SOC.youtube, yt: SOC.youtube,
     };
+    const PAGES = { '~': '/', portfoy: '/portfoy', lab: '/lab', terminal: '/terminal', hakkimda: '/hakkimda' };
+    const PAGE_ALIAS = { home: '~', '..': '~', portfolio: 'portfoy', about: 'hakkimda', 'hakkımda': 'hakkimda', 'portföy': 'portfoy' };
     const MAIL = 'https://mail.google.com/mail/?view=cm&fs=1&to=bettercallhtm@gmail.com';
 
     const uptime = () => {
@@ -1121,6 +1542,7 @@
           ['contact', 'iletişim', 'get in touch'],
           ['prime <n>', 'asallık testi + çarpanlar', 'primality test + factors'],
           ['ls · cat <dosya>', 'dosyalara göz at', 'browse files'],
+          ['cd <sayfa>', 'sayfaya git (ör. cd lab)', 'go to a page (e.g. cd lab)'],
           ['theme · lang', 'dark/light · tr/en', 'dark/light · tr/en'],
           ['matrix', 'bilirsin', 'you know'],
           ['sudo hire-me', '👀', '👀'],
@@ -1193,18 +1615,27 @@
       },
       ls(args) {
         const all = args.includes('-a') || args.includes('-la');
-        print(`<span class="c">projects/</span>  about.txt  socials.json${all ? '  <span class="dim">.secrets</span>' : ''}`);
+        print(`${Object.keys(PAGES).filter(p => p !== '~').map(p => `<span class="c">${p}/</span>`).join('  ')}  about.txt  socials.json${all ? '  <span class="dim">.secrets</span>' : ''}`);
       },
       cat(args) {
         const f = (args[0] || '').replace(/^\.\//, '');
         if (!f) return print(L('kullanım: cat <dosya>', 'usage: cat <file>'), 'dim');
-        if (f === 'about.txt') return print(esc(L($('#about .about-text').dataset.tr, $('#about .about-text').dataset.en)));
+        if (f === 'about.txt') return print(esc(L(
+          'Ben Hasan Tahsin Meriç. İTÜ Elektronik ve Haberleşme Mühendisliği\'nde son sınıf öğrencisiyim. Geri kalan zamanımda tek kişilik kurucu olarak uygulamalar geliştiriyorum. Beni ben yapan şey merak: sayılar teorisi, finans, blockchain, satranç.',
+          'I\'m Hasan Tahsin Meriç, a senior in Electronics & Communication Engineering at ITU. The rest of the time I build apps as a solo founder. What defines me is curiosity: number theory, finance, blockchain, chess.')));
         if (f === 'socials.json') return print(esc(JSON.stringify(SOC, null, 2)));
         if (f === '.secrets') return print(L('nice try. 🔒', 'nice try. 🔒'), 'y');
-        if (f.startsWith('projects')) return print(`cat: ${esc(f)}: ${L('bu bir dizin — projects yaz', "is a directory — try 'projects'")}`, 'err');
+        if (PAGES[f.replace(/\/$/, '')]) return print(`cat: ${esc(f)}: ${L(`bu bir dizin — cd ${esc(f)} yaz`, `is a directory — try cd ${esc(f)}`)}`, 'err');
         print(`cat: ${esc(f)}: ${L('böyle bir dosya yok', 'no such file')}`, 'err');
       },
-      cd() { print(L('gidecek yer yok. zaten evdesin.', "nowhere to go. you're already home."), 'dim'); },
+      cd(args) {
+        const want = (args[0] || '~').toLowerCase().replace(/^\.?\//, '').replace(/\/$/, '') || '~';
+        const url = PAGES[want] || PAGES[PAGE_ALIAS[want]];
+        if (!url) return print(`cd: ${esc(want)}: ${L('böyle bir dizin yok — ls dene', 'no such directory — try ls')}`, 'err');
+        if (url === (location.pathname.replace(/\/$/, '') || '/')) return print(L('zaten buradasın.', "you're already here."), 'dim');
+        print(`→ ${esc(url)}`, 'dim');
+        setTimeout(() => { location.href = url; }, 250);
+      },
       pwd() { print('/home/guest/bettercallhtm'); },
       stack() { print('TypeScript · JavaScript · React · React Native · Expo · Node.js · Python · C · Vercel · Netlify · Vitest'); },
       date() {
@@ -1304,12 +1735,24 @@
 
   /* ── video lightbox ──────────────────────────────────── */
   (() => {
-    const lb = $('#lightbox'), frame = $('#lb-iframe'), yt = $('#lb-yt');
+    const lb = $('#lightbox');
+    if (!lb) return;
+    const frame = $('#lb-iframe'), video = $('#lb-video'), yt = $('#lb-yt');
     let opener = null;
-    function openVideo(id, btn) {
+    /* data-video = YouTube id, data-src = self-hosted mp4 */
+    function openVideo(btn) {
       opener = btn;
-      frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
-      yt.href = 'https://www.youtube.com/shorts/' + id;
+      const id = btn.dataset.video;
+      frame.hidden = !id;
+      video.hidden = !!id;
+      yt.hidden = !id;
+      if (id) {
+        frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+        yt.href = 'https://www.youtube.com/shorts/' + id;
+      } else {
+        video.src = btn.dataset.src;
+        video.play().catch(() => {});
+      }
       lb.hidden = false;
       document.body.style.overflow = 'hidden';
       $('.lb-close', lb).focus();
@@ -1317,10 +1760,13 @@
     function closeVideo() {
       lb.hidden = true;
       frame.src = '';
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
       document.body.style.overflow = '';
       opener && opener.focus();
     }
-    $$('.card-video[data-video]').forEach(btn => btn.addEventListener('click', () => openVideo(btn.dataset.video, btn)));
+    $$('.card-video[data-video], .card-video[data-src]').forEach(btn => btn.addEventListener('click', () => openVideo(btn)));
     $$('[data-close]', lb).forEach(el => el.addEventListener('click', closeVideo));
     addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeVideo(); });
   })();
