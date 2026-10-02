@@ -177,7 +177,6 @@
     const CODE = [
       L(['c', '// htm.config.ts — v2026.9']),
       L(['k', 'export const '], ['v', 'htm'], o(' = {')),
-      prop('name', s('Hasan Tahsin Meriç')),
       prop('handle', s('@bettercallhtm')),
       prop('role', s('solo founder')),
       prop('base', s('İstanbul, TR')),
@@ -883,14 +882,12 @@
     const SOC = {
       github: 'https://github.com/bettercallhtm',
       x: 'https://x.com/bett3rcallhtm',
-      instagram: 'https://www.instagram.com/hasahsinmeric/',
-      linkedin: 'https://www.linkedin.com/in/hasan-tahsin-meri%C3%A7-51554b277/',
       youtube: 'https://www.youtube.com/@bettercallhtm',
     };
     const OPEN = {
       debi: PROJ[0].u, nightjar: PROJ[1].u, chess: PROJ[2].u, satranc: PROJ[2].u, laftan: PROJ[3].u, liman: PROJ[4].u,
-      github: SOC.github, gh: SOC.github, x: SOC.x, twitter: SOC.x, instagram: SOC.instagram, ig: SOC.instagram,
-      linkedin: SOC.linkedin, youtube: SOC.youtube, yt: SOC.youtube,
+      github: SOC.github, gh: SOC.github, x: SOC.x, twitter: SOC.x,
+      youtube: SOC.youtube, yt: SOC.youtube,
     };
     const PAGES = { '~': '/', portfoy: '/portfoy', lab: '/lab', terminal: '/terminal', hakkimda: '/hakkimda' };
     const PAGE_ALIAS = { home: '~', '..': '~', portfolio: 'portfoy', about: 'hakkimda', 'hakkımda': 'hakkimda', 'portföy': 'portfoy' };
@@ -923,7 +920,7 @@
         print(L('ipucu: Tab tamamlar, ↑↓ geçmişte gezer.', 'tip: Tab completes, ↑↓ walks history.'), 'dim');
       },
       whoami() {
-        print(`<span class="w">Hasan Tahsin Meriç</span> <span class="dim">(@bettercallhtm)</span>\n` + esc(L(
+        print(`<span class="w">bettercallhtm</span>\n` + esc(L(
           "İstanbul'dan tek kişilik kurucu. İTÜ Elektronik & Haberleşme, son sınıf.\nProblemi görürüm, kodlarım, yayınlarım. Finans, sayılar teorisi ve satranç meraklısı.",
           'Solo founder from Istanbul. Senior in Electronics & Communication Eng. at ITU.\nI see a problem, I build it, I ship it. Into finance, number theory and chess.')));
       },
@@ -992,8 +989,8 @@
         const f = (args[0] || '').replace(/^\.\//, '');
         if (!f) return print(L('kullanım: cat <dosya>', 'usage: cat <file>'), 'dim');
         if (f === 'about.txt') return print(esc(L(
-          'Ben Hasan Tahsin Meriç. İTÜ Elektronik ve Haberleşme Mühendisliği\'nde son sınıf öğrencisiyim. Geri kalan zamanımda tek kişilik kurucu olarak uygulamalar geliştiriyorum. Beni ben yapan şey merak: sayılar teorisi, finans, blockchain, satranç.',
-          'I\'m Hasan Tahsin Meriç, a senior in Electronics & Communication Engineering at ITU. The rest of the time I build apps as a solo founder. What defines me is curiosity: number theory, finance, blockchain, chess.')));
+          'İTÜ Elektronik ve Haberleşme Mühendisliği\'nde son sınıf öğrencisiyim. Geri kalan zamanımda tek kişilik kurucu olarak uygulamalar geliştiriyorum. Beni ben yapan şey merak: sayılar teorisi, finans, blockchain, satranç.',
+          'I\'m a senior in Electronics & Communication Engineering at ITU. The rest of the time I build apps as a solo founder. What defines me is curiosity: number theory, finance, blockchain, chess.')));
         if (f === 'socials.json') return print(esc(JSON.stringify(SOC, null, 2)));
         if (f === '.secrets') return print(L('nice try. 🔒', 'nice try. 🔒'), 'y');
         if (PAGES[f.replace(/\/$/, '')]) return print(`cat: ${esc(f)}: ${L(`bu bir dizin — cd ${esc(f)} yaz`, `is a directory — try cd ${esc(f)}`)}`, 'err');
